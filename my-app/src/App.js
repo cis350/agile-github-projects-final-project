@@ -9,7 +9,7 @@ function App() {
 
   const handleRegister = async () => {
     try {
-      await axios.post('http://localhost:5000/register', { username, password });
+      await axios.post('http://localhost:3000/register', { username, password });
       console.log('Registration successful');
     } catch (error) {
       console.error('Registration failed:', error.response.data.message);
@@ -18,7 +18,7 @@ function App() {
 
   const handleLogin = async () => {
     try {
-      await axios.post('http://localhost:5000/login', { username, password });
+      await axios.post('http://localhost:3000/login', { username, password });
       console.log('Login successful');
     } catch (error) {
       console.error('Login failed:', error.response.data.message);
