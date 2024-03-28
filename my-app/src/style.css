@@ -1,5 +1,5 @@
 .frame {
-  background-color: rgba(223, 227, 231, 1);
+  background-color: var(--material-themesysdark-high-contraston-background);
   border-radius: 20px;
   height: 497px;
   overflow: hidden;
