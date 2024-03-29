@@ -1,30 +1,26 @@
 {
-  "name": "backend",
+  "name": "pebble",
   "version": "1.0.0",
-  "description": "Project backend",
+  "description": "App to find rides!",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "mern",
-    "mongodb",
-    "express",
-    "nodejs"
-  ],
-  "author": "CIS3500",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cis350/agile-github-projects-final-project.git"
+  },
+  "author": "Akshat Iyer, Andrew Wu, Crystal Dai, Joon Luther, Namita Sajai",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cis350/agile-github-projects-final-project/issues"
+  },
+  "homepage": "https://github.com/cis350/agile-github-projects-final-project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.5.0",
-    "supertest": "^6.3.4"
-  },
-  "devDependencies": {
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1"
+    "mongoose": "^8.2.4"
   }
 }
