@@ -15,7 +15,7 @@ exports.signup = (req, res) => {
 
   user.save((err, user) => {
     if (err) {
-      res.status(500).send({ message: err });
+      res.status(400).send({ message: err });
       return;
     }
 
@@ -26,14 +26,14 @@ exports.signup = (req, res) => {
         },
         (err, roles) => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(400).send({ message: err });
             return;
           }
 
           user.roles = roles.map(role => role._id);
           user.save(err => {
             if (err) {
-              res.status(500).send({ message: err });
+              res.status(400).send({ message: err });
               return;
             }
 
@@ -51,7 +51,7 @@ exports.signup = (req, res) => {
         user.roles = [role._id];
         user.save(err => {
           if (err) {
-            res.status(500).send({ message: err });
+            res.status(400).send({ message: err });
             return;
           }
 
@@ -69,12 +69,12 @@ exports.signin = (req, res) => {
     .populate("roles", "-__v")
     .exec((err, user) => {
       if (err) {
-        res.status(500).send({ message: err });
+        res.status(400).send({ message: err });
         return;
       }
 
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(400).send({ message: "User Not found." });
       }
 
       var passwordIsValid = bcrypt.compareSync(
@@ -83,7 +83,7 @@ exports.signin = (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(401).send({
+        return res.status(400).send({
           accessToken: null,
           message: "Invalid Password!"
         });
@@ -102,7 +102,7 @@ exports.signin = (req, res) => {
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
-      res.status(200).send({
+      res.status(201).send({
         id: user._id,
         username: user.username,
         email: user.email,
