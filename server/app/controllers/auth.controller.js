@@ -18,7 +18,6 @@ exports.signup = (req, res) => {
       res.status(400).send({ message: err });
       return;
     }
-
     if (req.body.roles) {
       Role.find(
         {
@@ -47,7 +46,10 @@ exports.signup = (req, res) => {
           res.status(500).send({ message: err });
           return;
         }
-
+        if (!user.password || !user.username) {
+          res.status(401).send({message: "Missing Fields"});
+          return;
+        }
         user.roles = [role._id];
         user.save(err => {
           if (err) {
@@ -75,6 +77,10 @@ exports.signin = (req, res) => {
 
       if (!user) {
         return res.status(400).send({ message: "User Not found." });
+      }
+      if (!user.password || !user.username) {
+        res.status(401).send({message: "Missing Fields"});
+        return;
       }
 
       var passwordIsValid = bcrypt.compareSync(
@@ -108,6 +114,28 @@ exports.signin = (req, res) => {
         email: user.email,
         roles: authorities,
         accessToken: token
+      });
+    });
+};
+
+exports.user = (req, res) => {
+  User.find({
+    id: req.body.id
+  })
+    .populate("roles", "-__v")
+    .exec((err, user) => {
+      if (err) {
+        res.status(400).send({ message: err });
+        return;
+      }
+
+      if (!user) {
+        return res.status(400).send({ message: "User Not found." });
+      }
+
+      res.status(201).send({
+        id: user._id,
+        username: user.username,
       });
     });
 };

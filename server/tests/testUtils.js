@@ -4,6 +4,8 @@
 const testUser = {
     username: 'testuser',
     password: 'cis3500',
+    email: 'testuser@gmail.com',
+    roles: ['user']
   };
   /**
    * Adds a test student to the DB
