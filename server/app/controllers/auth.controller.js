@@ -12,6 +12,10 @@ var bcrypt = require("bcryptjs");
  * @param {object} res - Express response object.
  */
 exports.signup = (req, res) => {
+  if (!req.body.password || !req.body.username || req.body.password == '' || req.body.username == '') {
+    res.status(401).send({message: "Missing Fields"});
+    return;
+  }
   const user = new User({
     username: req.body.username,
     email: req.body.email,
@@ -33,14 +37,14 @@ exports.signup = (req, res) => {
             res.status(400).send({ message: err });
             return;
           }
-
+          
           user.roles = roles.map(role => role._id);
           user.save(err => {
             if (err) {
               res.status(400).send({ message: err });
               return;
             }
-
+            
             res.send({ message: "User was registered successfully!" });
           });
         }
