@@ -131,5 +131,11 @@ describe('POST /login  enpoint tests', () => {
       .send(`username=${testUser.username}`);
     expect(res.status).toEqual(401);
   });
+
+  test('test duplicate signup', async () => {
+    const res = await request(webapp).post('/api/auth/signup')
+    .send(`username=${testUser.username}&password=${testUser.password}&email=${testUser.email}&roles=['user']`);
+    expect(res.status).toEqual(400);
+  });
   
 });
