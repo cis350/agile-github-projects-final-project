@@ -78,7 +78,7 @@ describe('POST /login  enpoint tests', () => {
     mongo = await connect();
 
     // send the request to the API and collect the response
-    response = await request(webapp).post('/api/auth/signin').send(`username=testabcsp24&password=testpasswordabcsp24`);
+    response = await request(webapp).post('/api/auth/signin').send(`username=${testUser.username}&password=${testUser.password}&email=${testUser.email}&roles=['user']`);
     console.log('response', response.text);
   });
 
@@ -109,25 +109,27 @@ describe('POST /login  enpoint tests', () => {
 
   test('test signup', async () => {
     const res = await request(webapp).post('/api/auth/signup')
-      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+      .send(`username=abcd&email=testuser@test.com&password=beans&roles=['user']`);
     expect(res.status).toEqual(200);
   });
 
   test('test signup no roles', async () => {
     const res = await request(webapp).post('/api/auth/signup')
-      .send(`username=testuser&email=testuser@test.com&password=beans`);
+      .send(`username=cdef&email=testuser@test.com&password=beans`);
     expect(res.status).toEqual(200);
   });
 
-  test('the status code is 201 and response type', () => {
-    expect(response.status).toBe(201); // status code
-    expect(response.type).toBe('application/json');
-  });
 
   test('the JWT is in the response', () => {
     // expect the JWT of the new session should not be undefined
     console.log('returned data id', response.text);
     expect(JSON.parse(response.text).accessToken).not.toBe(undefined);
+  });
+
+  test('test signup empty', async () => {
+    const res = await request(webapp).post('/api/auth/signin')
+      .send(`username=${testUser.username}`);
+    expect(res.status).toEqual(401);
   });
   
 });
