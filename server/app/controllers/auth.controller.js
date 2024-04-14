@@ -12,12 +12,12 @@ exports.signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   });
-
   user.save((err, user) => {
     if (err) {
       res.status(400).send({ message: err });
       return;
     }
+    
     if (req.body.roles) {
       Role.find(
         {
@@ -46,7 +46,7 @@ exports.signup = (req, res) => {
           res.status(500).send({ message: err });
           return;
         }
-        if (!user.password || !user.username) {
+        if (!user.password || !user.username || !req.body.password || !req.body.username) {
           res.status(401).send({message: "Missing Fields"});
           return;
         }
@@ -78,7 +78,7 @@ exports.signin = (req, res) => {
       if (!user) {
         return res.status(400).send({ message: "User Not found." });
       }
-      if (!user.password || !user.username) {
+      if (!user.password || !user.username || !req.body.password || !req.body.username) {
         res.status(401).send({message: "Missing Fields"});
         return;
       }
@@ -89,7 +89,7 @@ exports.signin = (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(400).send({
+        return res.status(401).send({
           accessToken: null,
           message: "Invalid Password!"
         });

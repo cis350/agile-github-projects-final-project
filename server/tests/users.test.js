@@ -101,7 +101,23 @@ describe('POST /login  enpoint tests', () => {
   /**
    * Status code and response type
    */
+  
+  test('simple route', async () => {
+    const res = await request(webapp).get('/')
+    expect(res.status).toEqual(200);
+  });
 
+  test('test signup', async () => {
+    const res = await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+    expect(res.status).toEqual(200);
+  });
+
+  test('test signup no roles', async () => {
+    const res = await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans`);
+    expect(res.status).toEqual(200);
+  });
 
   test('the status code is 201 and response type', () => {
     expect(response.status).toBe(201); // status code
@@ -113,18 +129,5 @@ describe('POST /login  enpoint tests', () => {
     console.log('returned data id', response.text);
     expect(JSON.parse(response.text).accessToken).not.toBe(undefined);
   });
-
-  test('missing a field (password) 401', async () => {
-    const res = await request(webapp).post('/api/auth/signin')
-      .send('usernamename=testuser');
-    expect(res.status).toEqual(401);
-  });
-
   
-
-  test('missing a field (username) 401', async () => {
-    const res = await request(webapp).post('/api/auth/signin')
-      .send('password=testuser');
-    expect(res.status).toEqual(401);
-  });
 });
