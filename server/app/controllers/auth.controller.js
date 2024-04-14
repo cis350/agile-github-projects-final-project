@@ -6,6 +6,11 @@ const Role = db.role;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+/**
+ * Handles user signup.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
@@ -63,7 +68,11 @@ exports.signup = (req, res) => {
     }
   });
 };
-
+/**
+ * Handles user signin.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 exports.signin = (req, res) => {
   User.findOne({
     username: req.body.username
@@ -117,7 +126,11 @@ exports.signin = (req, res) => {
       });
     });
 };
-
+/**
+ * Fetches user details.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 exports.user = (req, res) => {
   User.find({
     id: req.body.id
