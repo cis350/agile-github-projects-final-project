@@ -12,8 +12,8 @@ var bcrypt = require("bcryptjs");
  * @param {object} res - Express response object.
  */
 exports.signup = (req, res) => {
-  if (!req.body.password || !req.body.username || req.body.password == '' || req.body.username == '') {
-    res.status(401).send({message: "Missing Fields"});
+  if (!req.body.password || !req.body.username || req.body.password === '' || req.body.username === '') {
+    res.status(400).send({message: "Missing Fields"});
     return;
   }
   User.findOne({
@@ -70,7 +70,7 @@ exports.signup = (req, res) => {
               return;
             }
             if (!user.password || !user.username || !req.body.password || !req.body.username) {
-              res.status(401).send({message: "Missing Fields"});
+              res.status(400).send({message: "Missing Fields"});
               return;
             }
             user.roles = [role._id];
