@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { GoogleLogo, AppleLogo, FacebookLogo } from "@phosphor-icons/react";
+import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
+const axios = require("axios")
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +10,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
+  
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -17,9 +19,21 @@ const Login: React.FC = () => {
     setPassword(e.target.value);
   };
 
-  const handleEmailLogin = () => {
+  const handleEmailLogin = async () => {
     // Handle email login
     console.log(email, password);
+    
+    axios.post(API_BASE_URL+'/api/auth/signin', {
+      username: email,
+      password: password
+    })
+      .then((response: any) => {
+        console.log(response);
+      })
+      .catch((error: any) => {
+          console.log(error);
+      });
+    
   };
 
   const handleGoogleLogin = () => {
@@ -33,6 +47,8 @@ const Login: React.FC = () => {
   const handleFacebookLogin = () => {
     // Handle Facebook login
   };
+  
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
