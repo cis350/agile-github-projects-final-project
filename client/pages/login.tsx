@@ -5,7 +5,7 @@ import LoginForm from "@/components/LoginForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Login() {
   return (
     <div className="w-full h-full bg-white font-inter">
       <Header />
