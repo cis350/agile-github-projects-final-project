@@ -13,11 +13,16 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@mapbox/search-js-react": "^1.0.0-beta.20",
     "@phosphor-icons/react": "^2.0.15",
+    "@types/mapbox__mapbox-sdk": "^0.14.0",
+    "@types/mapbox-gl": "^3.1.0",
+    "formik": "^2.4.6",
     "framer-motion": "^11.0.23",
     "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

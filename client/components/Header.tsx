@@ -17,7 +17,7 @@ const Header = () => {
         <Link className="bg-white px-4 py-1 rounded-full text-stone-800" href="/bookride">
           Book a Ride
         </Link>
-        <Link href="/profile" className="bg-white rounded-full h-8 w-8 flex justify-center items-center" >
+        <Link href="login" className="bg-white rounded-full h-8 w-8 flex justify-center items-center" >
           <User size={18} weight='fill' color="gray" />    
         </Link>
       </nav>
