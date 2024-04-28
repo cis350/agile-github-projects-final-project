@@ -3,6 +3,7 @@ import { MapPin } from "@phosphor-icons/react";
 import Image from "next/image";
 import HowItWorksGraphic from "@/public/HowItWorksGraphic.svg";
 import WhiteCar from "@/public/WhiteCar.png";
+import AppCar from "@/public/App+Car.png";
 
 const BookingForm = () => {
   return (
@@ -26,7 +27,7 @@ const BookingForm = () => {
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
               size={24}
             />
-            
+
             <input
               type="text"
               placeholder="Enter pick up location"
@@ -81,6 +82,23 @@ const BookingForm = () => {
           <div className="flex flex-col items-center space-y-2 justify-center w-40">
             <div className="text-3xl font-semibold text-center">100%</div>
             <p className="text-xl text-center">friendship guaranteed</p>
+          </div>
+        </div>
+        <div className="h-[80vh] mt-20 flex flex-row">
+          <Image
+            src={AppCar}
+            alt="Pebble App and Car Illustration"
+            width={700}
+            className="absolute left-0"
+          />
+          <div className="w-1/2"></div>
+          <div className="w-1/2 mt-20">
+            <div className="text-4xl text-stone-800 font-bold">
+              Save Money. 
+            </div>
+            <div className="text-4xl text-stone-800 font-bold mt-2">
+              Make Friends.
+            </div>
           </div>
         </div>
       </div>
