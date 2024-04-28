@@ -132,6 +132,8 @@ exports.signin = (req, res) => {
                                 expiresIn: 86400, // 24 hours
                               });
 
+      User.findOneAndUpdate({username: req.body.username}, {accessToken: token});
+
       var authorities = [];
 
       for (let i = 0; i < user.roles.length; i++) {

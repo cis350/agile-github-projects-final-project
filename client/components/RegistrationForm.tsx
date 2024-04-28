@@ -34,16 +34,25 @@ const Login: React.FC = () => {
 
   const handleEmailLogin = async () => {
     // Handle email login
-    console.log(email, password);
-
-    axios
-      .post(API_BASE_URL + "/api/auth/signin", {
+    console.log(password);
+    console.log(confirmPassword);
+    if (password !== confirmPassword) {
+      setErrorMessage("Your Passwords do not match!");
+      setVisibleInvalidFields(true);
+      console.log("balls");
+      
+      return;
+    } else {
+      axios
+      .post(API_BASE_URL + "/api/auth/signup", {
         username: email,
+        email: email,
         password: password,
       })
       .then((response: any) => {
         console.log(response);
         if (response.status != 201) {
+
         } else {
           setVisibleInvalidFields(false);
         }
@@ -53,6 +62,8 @@ const Login: React.FC = () => {
         setVisibleInvalidFields(true);
         setErrorMessage(error.response.data.message);
       });
+    }
+    
   };
 
   return (

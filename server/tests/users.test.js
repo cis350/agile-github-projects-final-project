@@ -78,8 +78,10 @@ describe('POST /login  enpoint tests', () => {
     mongo = await connect();
 
     // send the request to the API and collect the response
-    response = await request(webapp).post('/api/auth/signin').send(`username=${testUser.username}&password=${testUser.password}&email=${testUser.email}&roles=['user']`);
-    console.log('response', response.text);
+    await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+      await request(webapp).post('/api/auth/signup')
+      .send(`username=cdef&email=testuser@test.com&password=beans`);
   });
 
   /**
@@ -89,7 +91,8 @@ describe('POST /login  enpoint tests', () => {
   afterAll(async () => {
     // we need to clear the DB
     try {
-      // await deleteTestDataFromDB(db, 'testuser');
+      await deleteTestDataFromDB(db, 'testuser');
+      await deleteTestDataFromDB(db, 'cdef');
       await mongo.close(); // the db connection in beforeAll
       await closeMongoDBConnection(); // the db connection in missing uname
       await closeMongoDBConnection(); // the db connection in missing password
@@ -107,21 +110,11 @@ describe('POST /login  enpoint tests', () => {
     expect(res.status).toEqual(200);
   });
 
-  test('test signup', async () => {
-    const res = await request(webapp).post('/api/auth/signup')
-      .send(`username=abcd&email=testuser@test.com&password=beans&roles=['user']`);
-    expect(res.status).toEqual(200);
-  });
 
-  test('test signup no roles', async () => {
-    const res = await request(webapp).post('/api/auth/signup')
-      .send(`username=cdef&email=testuser@test.com&password=beans`);
-    expect(res.status).toEqual(200);
-  });
-
-
-  test('the JWT is in the response', () => {
+  test('the JWT is in the response', async () => {
     // expect the JWT of the new session should not be undefined
+    const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=${testUser.username}&password=beans`);
     console.log('returned data id', response.text);
     expect(JSON.parse(response.text).accessToken).not.toBe(undefined);
   });
@@ -139,3 +132,50 @@ describe('POST /login  enpoint tests', () => {
   });
   
 });
+
+describe('GET /fetch endpoint tests', () => {
+  let mongo; // local mongo connection
+  let db;
+  let testUserID;
+
+  /**
+     * Make sure that the data is in the DB before running
+     * any test
+     * connect to the DB
+     */
+  beforeAll(async () => {
+    mongo = await connect();
+    db = mongo.db();
+
+    // add test user to mongodb
+    await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+  });
+
+  /**
+ * Delete all test data from the DB
+ * Close all open connections
+ */
+  afterAll(async () => {
+    try {
+      await deleteTestDataFromDB(db, testUser.username);
+      await mongo.close();
+      await closeMongoDBConnection(); // mongo client that started server.
+    } catch (err) {
+      return err;
+    }
+  });
+
+  test('test success fetch', async () => {
+    const res = await request(webapp).get(`/api/profile/fetch/testuser`)
+
+    expect(res.status).toEqual(201);
+  });
+
+  test('test user not exist', async () => {
+    const res = await request(webapp).get(`/api/profile/fetch/nonexist`);
+    
+
+    expect(res.status).toEqual(400);  
+  });
+})
