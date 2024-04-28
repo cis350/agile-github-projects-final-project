@@ -15,8 +15,12 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/api/profile/fetch", controller.fetchProfile);
+  app.get("/api/profile/fetch/:username", controller.fetchProfile);
   // Route for user profile update
   app.post("/api/profile/update", controller.updateProfile);
   // Route for fetching user details
+
+  app.post("/api/profile/delete", controller.deleteProfile);
+
+  app.post("/api/profile/logout", controller.logout);
 };

@@ -80,7 +80,7 @@ exports.signup = (req, res) => {
                 return;
               }
     
-              res.send({ message: "User was registered successfully!" });
+              res.status(201).send({ message: "User was registered successfully!" });
             });
           });
         }
@@ -105,7 +105,7 @@ exports.signin = (req, res) => {
       }
 
       if (!user) {
-        return res.status(400).send({ message: "User Not found." });
+        return res.status(401).send({ message: "User Not found." });
       }
       if (!user.password || !user.username || !req.body.password || !req.body.username) {
         res.status(401).send({message: "Missing Fields"});
@@ -131,6 +131,8 @@ exports.signin = (req, res) => {
                                 allowInsecureKeySizes: true,
                                 expiresIn: 86400, // 24 hours
                               });
+
+      User.findOneAndUpdate({username: req.body.username}, {accessToken: token});
 
       var authorities = [];
 
