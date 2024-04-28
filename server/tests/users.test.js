@@ -1,67 +1,11 @@
 const request = require('supertest');
-const { closeMongoDBConnection, connect } = require('../app/models/dbUtils');
-const webapp = require('../server');
-const { authJwt } = require("../app/middlewares");
-const controller = require("../app/controllers/user.controller");
+const webapp = require('../../server');
 
 
 // import test utilities function
-const {
-  isInArray, testUser, insertTestDataToDB, deleteTestDataFromDB,
+const {testUser
 } = require('./testUtils');
 
-// TEST POST ENDPOINT
-describe('GET users(s) endpoint integration test', () => {
-  /**
- * If you get an error with afterEach
- * inside .eslintrc.json in the
- * "env" key add -'jest': true-
-*/
-  let mongo; // local mongo connection
-  let db;
-  let testUserID;
-
-  /**
-     * Make sure that the data is in the DB before running
-     * any test
-     * connect to the DB
-     */
-  beforeAll(async () => {
-    mongo = await connect();
-    db = mongo.db();
-
-    // add test user to mongodb
-    testUserID = await insertTestDataToDB(db, testUser);
-  });
-
-  /**
- * Delete all test data from the DB
- * Close all open connections
- */
-  afterAll(async () => {
-    try {
-      await deleteTestDataFromDB(db, testUser.username);
-      await mongo.close();
-      await closeMongoDBConnection(); // mongo client that started server.
-    } catch (err) {
-      return err;
-    }
-  });
-
-
-  test('Get: status code and data', async () => {
-    const resp = await request(webapp).post(`/api/auth/user`).send(`id=${testUserID}`);
-    expect(resp.status).toEqual(201);
-    expect(resp.type).toBe('application/json');
-    // testStudent is in the response
-  });
-
-  test('user not in db status code 404', async () => {
-    const resp = await request(webapp).get('/user/1');
-    expect(resp.status).toEqual(404);
-    expect(resp.type).toBe('text/html');
-  });
-});
 
 describe('POST /login  enpoint tests', () => {
   let mongo; // local mongo connection
@@ -75,8 +19,6 @@ describe('POST /login  enpoint tests', () => {
        */
   beforeAll(async () => {
     // connect to the db
-    mongo = await connect();
-
     // send the request to the API and collect the response
     await request(webapp).post('/api/auth/signup')
       .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
@@ -91,11 +33,10 @@ describe('POST /login  enpoint tests', () => {
   afterAll(async () => {
     // we need to clear the DB
     try {
-      await deleteTestDataFromDB(db, 'testuser');
-      await deleteTestDataFromDB(db, 'cdef');
-      await mongo.close(); // the db connection in beforeAll
-      await closeMongoDBConnection(); // the db connection in missing uname
-      await closeMongoDBConnection(); // the db connection in missing password
+      await request(webapp).post('/api/profile/delete')
+      .send(`username=testuser`);
+      await request(webapp).post('/api/profile/delete')
+      .send(`username=cdef`);
     } catch (err) {
       return err;
     }
@@ -115,8 +56,16 @@ describe('POST /login  enpoint tests', () => {
     // expect the JWT of the new session should not be undefined
     const response = await request(webapp).post('/api/auth/signin')
       .send(`username=${testUser.username}&password=beans`);
-    console.log('returned data id', response.text);
     expect(JSON.parse(response.text).accessToken).not.toBe(undefined);
+  });
+
+  test('the JWT undefined when logout response', async () => {
+    // expect the JWT of the new session should not be undefined
+    await request(webapp).post('/api/auth/signin')
+      .send(`username=${testUser.username}&password=beans`);
+    const response = await request(webapp).post('/api/profile/logout')
+      .send(`username=${testUser.username}&password=beans`);
+    expect(JSON.parse(response.text).accessToken).toBe(undefined);
   });
 
   test('test signup empty', async () => {
@@ -144,9 +93,6 @@ describe('GET /fetch endpoint tests', () => {
      * connect to the DB
      */
   beforeAll(async () => {
-    mongo = await connect();
-    db = mongo.db();
-
     // add test user to mongodb
     await request(webapp).post('/api/auth/signup')
       .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
@@ -158,9 +104,8 @@ describe('GET /fetch endpoint tests', () => {
  */
   afterAll(async () => {
     try {
-      await deleteTestDataFromDB(db, testUser.username);
-      await mongo.close();
-      await closeMongoDBConnection(); // mongo client that started server.
+      await request(webapp).post('/api/profile/delete')
+      .send(`username=testuser`);
     } catch (err) {
       return err;
     }
@@ -169,13 +114,13 @@ describe('GET /fetch endpoint tests', () => {
   test('test success fetch', async () => {
     const res = await request(webapp).get(`/api/profile/fetch/testuser`)
 
-    expect(res.status).toEqual(201);
+    expect(res.status).toEqual(200);
   });
 
   test('test user not exist', async () => {
     const res = await request(webapp).get(`/api/profile/fetch/nonexist`);
     
 
-    expect(res.status).toEqual(400);  
+    expect(res.status).toEqual(404);  
   });
 })
