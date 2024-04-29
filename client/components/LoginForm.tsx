@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { useRouter } from "next/router";
-require('dotenv').config();
 
-const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { useRouter } from "next/router";
+import { login } from '@/pages/api/api_auth_routes';
+
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -21,12 +20,7 @@ const Login: React.FC = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const router = useRouter();
 
-  let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-    }
-  };
+  
 
   const formik = useFormik({
     initialValues: {
@@ -36,12 +30,7 @@ const Login: React.FC = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
-          username: values.email,
-          email: values.email,
-          password: values.password,
-        },
-        axiosConfig);
+        const response = await login(values.email, values.password);
 
         if (response.status === 201) {
           console.log('Login successful', response.data);

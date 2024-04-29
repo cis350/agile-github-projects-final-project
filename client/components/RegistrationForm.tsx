@@ -3,11 +3,9 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
-import axios from "axios";
 import { useRouter } from "next/router"; 
 require('dotenv').config();
-
-const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { register } from '@/pages/api/api_auth_routes';
 
 
 
@@ -32,13 +30,7 @@ const Register: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [errorMessages, setErrorMessages] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const router = useRouter(); 
-  let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-    }
-  };
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,12 +40,7 @@ const Register: React.FC = () => {
     validationSchema: RegistrationSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signup`, {
-          username: values.email,
-          email: values.email,
-          password: values.password,
-        },
-        axiosConfig);
+        const response = await register(values.email, values.password);
 
         if (response.status === 201) {
           console.log("Registration successful", response.data);

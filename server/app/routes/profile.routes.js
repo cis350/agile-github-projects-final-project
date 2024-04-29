@@ -14,13 +14,12 @@ module.exports = function(app) {
     );
     next();
   });
-
+  // Route for fetching user details
   app.get("/api/profile/fetch/:username", controller.fetchProfile);
   // Route for user profile update
   app.post("/api/profile/update", controller.updateProfile);
-  // Route for fetching user details
-
+  // Route for delete profile
   app.post("/api/profile/delete", controller.deleteProfile);
-
+  // Route for logout profile
   app.post("/api/profile/logout", controller.logout);
 };
