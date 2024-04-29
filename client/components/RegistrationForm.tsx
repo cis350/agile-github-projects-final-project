@@ -5,6 +5,7 @@ import { GoogleLogo, AppleLogo, FacebookLogo } from "@phosphor-icons/react";
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants/apiConstants";
 import { error } from "console";
 const axios = require("axios");
+const { login, register } = require("../../api/auth_calls")
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword(!showConfirmPassword);
-
+  
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -43,25 +44,14 @@ const Login: React.FC = () => {
       
       return;
     } else {
-      axios
-      .post(API_BASE_URL + "/api/auth/signup", {
-        username: email,
-        email: email,
-        password: password,
-      })
-      .then((response: any) => {
-        console.log(response);
-        if (response.status != 201) {
-
-        } else {
-          setVisibleInvalidFields(false);
-        }
-      })
-      .catch((error: any) => {
-        console.log(error.response.data.message);
+      let res = register(email, password);
+      if (res.status != 201) {
         setVisibleInvalidFields(true);
-        setErrorMessage(error.response.data.message);
-      });
+        setErrorMessage(res.message);
+      } else {
+        setVisibleInvalidFields(false);
+        setErrorMessage("");
+      }
     }
     
   };

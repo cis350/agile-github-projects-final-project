@@ -5,6 +5,7 @@ import { GoogleLogo, AppleLogo, FacebookLogo } from "@phosphor-icons/react";
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../../constants/apiConstants";
 import { error } from "console";
 const axios = require("axios");
+const { login, register } = require("../../api/auth_calls");
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -26,23 +27,14 @@ const Login: React.FC = () => {
     // Handle email login
     console.log(email, password);
 
-    axios
-      .post(API_BASE_URL + "/api/auth/signin", {
-        username: email,
-        password: password,
-      })
-      .then((response: any) => {
-        console.log(response);
-        if (response.status != 201) {
-        } else {
-          setVisibleInvalidFields(false);
-        }
-      })
-      .catch((error: any) => {
-        console.log(error.response.data.message);
-        setVisibleInvalidFields(true);
-        setErrorMessage(error.response.data.message);
-      });
+    let res = login(email, password);
+    if (res.status != 201) {
+      setVisibleInvalidFields(true);
+      setErrorMessage(res.message);
+    } else {
+      setVisibleInvalidFields(false);
+      setErrorMessage("");
+    }
   };
 
   return (

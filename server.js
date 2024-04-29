@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dbConfig = require("./server/app/config/db.config");
+const path = require('path');
 
 const app = express();
 
@@ -24,6 +25,10 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static(path.join(__dirname, './client/build')));
+
+
+
 const db = require("./server/app/models");
 const Role = db.role;
 
@@ -43,7 +48,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Hallo." });
+  res.sendFile(path.join(__dirname, './client/.next/server/pages/index.html'));
 });
 
 // routes
