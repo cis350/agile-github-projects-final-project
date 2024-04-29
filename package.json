@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --coverage --detectOpenHandles",
     "start": "node server.js",
-    "build": "npm install && (cd client && npm install && npm run build)"
+    "build": "npm install",
+    "heroku-postbuild": "cd client && next build"
   },
   "repository": {
     "type": "git",
