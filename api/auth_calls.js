@@ -1,10 +1,13 @@
+
+require('dotenv').config();
+
 const axios = require("axios");
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../constants/apiConstants";
 
-
+const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const NEXT_PUBLIC_ACCESS_TOKEN_NAME = process.env.NEXT_PUBLIC_ACCESS_TOKEN_NAME;
 export const login = async (username, password) => {
   await axios
-      .post(API_BASE_URL + "/api/auth/signin", {
+      .post(NEXT_PUBLIC_API_BASE_URL + "/api/auth/signin", {
         username: username,
         password: password,
       })
@@ -25,7 +28,7 @@ export const login = async (username, password) => {
 export const register = async (username, password) => {
   let res, err;
   await axios
-      .post(API_BASE_URL + "/api/auth/signup", {
+      .post(NEXT_PUBLIC_API_BASE_URL + "/api/auth/signup", {
         username: username,
         email: username,
         password: password,
