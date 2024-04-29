@@ -112,7 +112,7 @@ const Login: React.FC = () => {
             Confirm Password
           </label>
           <input
-            id="password"
+            id="confpassword"
             type={showConfirmPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
