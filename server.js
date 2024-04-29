@@ -7,7 +7,6 @@ const app = express();
 
 var corsOptions = {
   origin: "https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app/",
-  credentials: true,
   optionSuccessStatus: 200
 };
 
@@ -24,9 +23,6 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, './client/build')));
-
 
 
 const db = require("./server/app/models");
