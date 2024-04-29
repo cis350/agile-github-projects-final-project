@@ -21,6 +21,13 @@ const Login: React.FC = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const router = useRouter();
 
+  let axiosConfig = {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*",
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -33,7 +40,8 @@ const Login: React.FC = () => {
           username: values.email,
           email: values.email,
           password: values.password,
-        });
+        },
+        axiosConfig);
 
         if (response.status === 201) {
           console.log('Login successful', response.data);

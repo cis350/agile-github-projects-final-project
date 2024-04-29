@@ -9,10 +9,10 @@ const controller = require("../controllers/auth.controller");
 module.exports = function(app) {
   app.use(function(req, res, next) {
     // Middleware to handle CORS headers
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
     next();
   });
 

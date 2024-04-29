@@ -33,7 +33,12 @@ const Register: React.FC = () => {
   const [errorMessages, setErrorMessages] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const router = useRouter(); 
-
+  let axiosConfig = {
+    headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": "*",
+    }
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,7 +52,8 @@ const Register: React.FC = () => {
           username: values.email,
           email: values.email,
           password: values.password,
-        });
+        },
+        axiosConfig);
 
         if (response.status === 201) {
           console.log("Registration successful", response.data);
