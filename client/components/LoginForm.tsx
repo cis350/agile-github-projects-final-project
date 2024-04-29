@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { API_BASE_URL } from '../../constants/apiConstants';
 import axios from 'axios';
 import { useRouter } from "next/router";
+require('dotenv').config();
+
+const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -27,7 +29,7 @@ const Login: React.FC = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/auth/signin`, {
+        const response = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
           username: values.email,
           email: values.email,
           password: values.password,
