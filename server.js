@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app/",
   credentials: true,
   optionSuccessStatus: 200
 };
