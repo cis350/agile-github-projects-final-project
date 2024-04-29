@@ -4,9 +4,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import axios from "axios";
-import { API_BASE_URL } from "../../constants/apiConstants";
 import { useRouter } from "next/router"; 
+require('dotenv').config();
 
+const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
 
@@ -42,7 +43,7 @@ const Register: React.FC = () => {
     validationSchema: RegistrationSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
+        const response = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signup`, {
           username: values.email,
           email: values.email,
           password: values.password,
