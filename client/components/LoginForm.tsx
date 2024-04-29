@@ -26,7 +26,7 @@ const Login: React.FC = () => {
     // Handle email login
     console.log(email, password);
 
-    axios
+    await axios
       .post(API_BASE_URL + "/api/auth/signin", {
         username: email,
         password: password,
