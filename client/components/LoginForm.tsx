@@ -31,7 +31,6 @@ const Login: React.FC = () => {
     onSubmit: async (values) => {
       try {
         const response = await login(values.email, values.password);
-
         if (response.status === 201) {
           console.log('Login successful', response.data);
           // Redirect to dashboard or perform other success actions
@@ -122,6 +121,7 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
 
 
 

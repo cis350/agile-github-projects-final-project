@@ -4,11 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { useRouter } from "next/router"; 
-require('dotenv').config();
 import { register } from '@/pages/api/api_auth_routes';
-
-
-
 
 // Validation schema for the form fields
 const RegistrationSchema = Yup.object().shape({
