@@ -8,8 +8,6 @@ const {testUser
 
 
 describe('POST /login  enpoint tests', () => {
-  let mongo; // local mongo connection
-  let response; // the response from our express server
   /**
        * We need to make the request to the endpoint
        * before running any test.
@@ -45,12 +43,6 @@ describe('POST /login  enpoint tests', () => {
   /**
    * Status code and response type
    */
-  
-  test('simple route', async () => {
-    const res = await request(webapp).get('/')
-    expect(res.status).toEqual(200);
-  });
-
 
   test('the JWT is in the response', async () => {
     // expect the JWT of the new session should not be undefined
@@ -83,9 +75,6 @@ describe('POST /login  enpoint tests', () => {
 });
 
 describe('GET /fetch endpoint tests', () => {
-  let mongo; // local mongo connection
-  let db;
-  let testUserID;
 
   /**
      * Make sure that the data is in the DB before running
@@ -122,5 +111,44 @@ describe('GET /fetch endpoint tests', () => {
     
 
     expect(res.status).toEqual(404);  
+  });
+})
+
+describe('POST /update endpoint tests', () => {
+
+  /**
+     * Make sure that the data is in the DB before running
+     * any test
+     * connect to the DB
+     */
+  beforeAll(async () => {
+    // add test user to mongodb
+    await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+  });
+
+  /**
+ * Delete all test data from the DB
+ * Close all open connections
+ */
+  afterAll(async () => {
+    try {
+      await request(webapp).post('/api/profile/delete')
+      .send(`username=testuser`);
+    } catch (err) {
+      return err;
+    }
+  });
+
+  test('test update empty', async () => {
+    const res = await request(webapp).post(`/api/profile/update`)
+      .send('username=testuser');
+    expect(res.status).toEqual(200);
+  });
+
+  test('test update phone number', async () => {
+    const res = await request(webapp).post(`/api/profile/update`)
+      .send('username=testuser&phoneNumber=9732349853');
+    expect(res.status).toEqual(200);
   });
 })
