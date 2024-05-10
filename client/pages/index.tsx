@@ -1,12 +1,12 @@
 import Header from "@/components/Header";
-import BookingForm from "@/components/BookingForm";
+import HomePageForm from "@/components/HomePageForm";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <div className="w-full h-full bg-white font-inter">
       <Header />
-      <BookingForm />
+      <HomePageForm />
       <Footer />
     </div>
   );

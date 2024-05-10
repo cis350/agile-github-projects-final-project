@@ -5,7 +5,7 @@ import HowItWorksGraphic from "@/public/HowItWorksGraphic.svg";
 import WhiteCar from "@/public/WhiteCar.png";
 import AppCar from "@/public/App+Car.png";
 
-const BookingForm = () => {
+const HomePageForm = () => {
   return (
     <div className="w-full h-full bg-white font-inter p-16">
       <div className="absolute right-0">
@@ -106,4 +106,4 @@ const BookingForm = () => {
   );
 };
 
-export default BookingForm;
+export default HomePageForm;
