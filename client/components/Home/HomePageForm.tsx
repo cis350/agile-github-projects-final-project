@@ -2,15 +2,14 @@ import React from "react";
 import { MapPin } from "@phosphor-icons/react";
 import Image from "next/image";
 import HowItWorksGraphic from "@/public/HowItWorksGraphic.svg";
-import WhiteCar from "@/public/WhiteCar.png";
-import AppCar from "@/public/App+Car.png";
+import WhiteCarImage from "./WhiteCarImage";
+import PebbleCar from "./PebbleCar";
+
 
 const HomePageForm = () => {
   return (
     <div className="w-full h-full bg-white font-inter p-16">
-      <div className="absolute right-0">
-        <Image src={WhiteCar} width={500} alt="Ride Illustration" />
-      </div>
+      <WhiteCarImage />
       {/* Header Section */}
       <div className="text-left space-y-4 py-10 w-1/2">
         <h1 className="text-4xl font-bold text-gray-800">Share a Ride</h1>
@@ -85,12 +84,7 @@ const HomePageForm = () => {
           </div>
         </div>
         <div className="h-[80vh] mt-20 flex flex-row">
-          <Image
-            src={AppCar}
-            alt="Pebble App and Car Illustration"
-            width={700}
-            className="absolute left-0"
-          />
+          <PebbleCar />
           <div className="w-1/2"></div>
           <div className="w-1/2 mt-20">
             <div className="text-4xl text-stone-800 font-bold">

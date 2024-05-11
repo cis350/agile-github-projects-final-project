@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import HomePageForm from "@/components/HomePageForm";
+import HomePageForm from "@/components/Home/HomePageForm";
 import Footer from "@/components/Footer";
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "@/components/LoginRegister/LoginForm";
 import Footer from "@/components/Footer";
 
 export default function Login() {
