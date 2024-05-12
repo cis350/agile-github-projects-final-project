@@ -19,9 +19,40 @@ describe('component_check', () => {
     cy.contains('About').should('be.visible');
     cy.contains('Book a Ride').should('be.visible');
     cy.contains('Already have an account? Login').should('be.visible');
-    cy.get('button').contains('Register')
+    cy.get('button').contains('Register');
+  })
+
+
+  it('profile_check', () => {
+    cy.visit('https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app/profile')
+    cy.contains('Email').should('be.visible');
+    cy.contains('Stars').should('be.visible');
+    cy.contains('Rideshare Apps').should('be.visible');
+    cy.contains('Payment Method').should('be.visible');
+    cy.get('button').contains('Logout').should('exist');
+    cy.get('button').contains('Delete Account').should('exist');
+  })
+
+  it('edit_profile_check', () => {
+    cy.visit('https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app/edit')
+    cy.contains('Change Email').should('be.visible');
+    cy.contains('Change Password').should('be.visible');
+    cy.contains('Change Preferred Rideshare Apps').should('be.visible');
+    cy.contains('Change Preferred Payment').should('be.visible');
+    cy.get('button').contains('Save Changes').should('exist');
+    cy.get('button').contains('Discard Changes').should('exist');
+  })
+
+
+  it('book_check', () => {
+    cy.visit('https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app/book')
+    cy.contains('Book a Ride').should('be.visible');
+    cy.contains('Pickup Location').should('be.visible');
+    cy.contains('Dropoff Location').should('be.visible');
+    cy.get('button').contains('Request a Rider');
   })
 })
+
 
 describe('flow_check', () => {
   it('login_flow_check', () => {
