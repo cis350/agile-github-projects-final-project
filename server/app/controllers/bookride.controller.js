@@ -23,6 +23,7 @@ exports.bookRide = (req, res) => {
         try {
             decoded = jwt.verify(authorization, secret.secretToken);
         } catch (e) {
+            console.log()
             return res.status(401).send('unauthorized');
         }
         userId = decoded.id;
