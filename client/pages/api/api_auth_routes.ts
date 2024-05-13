@@ -13,8 +13,12 @@ export const login = async (username: string, password: string) => {
         username: username,
         email: username,
         password: password,
-    }, axiosConfig);
-};
+    }, axiosConfig).then( (response) => {
+        let token = response.data.accessToken;
+        localStorage.setItem("SavedToken", token);
+        axios.defaults.headers.common['Authorization'] = token;
+    });
+}
 
 export const register = async (username: string, password: string) => {
     return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signup`, {

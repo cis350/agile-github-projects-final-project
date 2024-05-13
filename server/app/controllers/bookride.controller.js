@@ -27,9 +27,9 @@ exports.bookRide = (req, res) => {
         }
         userId = decoded.id;
     } else {
-        return;
+        return res.status(500).send("Internal Server Error");
     }
-    
+
     User.findOne({
         id: userId
       })
