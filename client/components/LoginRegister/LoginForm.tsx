@@ -30,6 +30,8 @@ const Login: React.FC = () => {
         const response = await login(values.email, values.password);
         if (response.status === 201) {
           console.log('Login successful', response.data);
+          let token = response.data.accessToken;
+          localStorage.setItem("SavedToken", token);    
           router.push("/");
         }
       } catch (error: any) {

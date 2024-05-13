@@ -16,11 +16,7 @@ export const login = async (username: string, password: string) => {
         password: password,
     }, axiosConfig);
     
-    let token = response.data.accessToken;
-    localStorage.setItem("SavedToken", token);
-    axios.defaults.headers.common['Authorization'] = token;
     
-    return response;
 }
 
 export const register = async (username: string, password: string) => {
