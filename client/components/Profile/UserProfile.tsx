@@ -14,6 +14,11 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6, "Password must be at least 6 characters"),
 });
 
+const convertArrayToString = (array: string[]): string => {
+  return array.join('; ');
+};
+
+
 const UserProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [rideshareApps, setRideshareApps] = useState<string[]>(["Lyft", "Uber"]);
@@ -24,6 +29,7 @@ const UserProfile: React.FC = () => {
   };
 
   const handleSaveChanges = (values: any) => {
+    const rideshareAppsString = convertArrayToString(rideshareApps);
     setIsEditing(false);
     console.log("Saved values:", values);
   };
