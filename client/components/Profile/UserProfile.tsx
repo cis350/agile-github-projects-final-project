@@ -103,7 +103,7 @@ const UserProfile: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="ml-4">
-              <h2 className="text-2xl font-bold">Andrew Wu</h2>
+              <h2 className="text-2xl font-bold text-stone-800">Andrew Wu</h2>
             </div>
           </div>
           {!isEditing && (
@@ -112,7 +112,7 @@ const UserProfile: React.FC = () => {
               className="flex items-center text-gray-600 hover:text-gray-900 p-2 bg-gray-100 rounded-3xl"
             >
               <PencilSimple size={20} />
-              <span className="ml-1 text-black">edit</span>
+              <span className="ml-1 text-stone-800">edit</span>
             </button>
           )}
         </div>

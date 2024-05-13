@@ -22,11 +22,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({
     <div className="mt-6 space-y-4 min-w-[40vw]">
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 w-32 font-semibold">Email</span>
-        <span className="ml-4 text-right text-black">{email}</span>
+        <span className="ml-4 text-right text-stone-800">{email}</span>
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 w-32 font-semibold">Stars</span>
-        <span className="text-black ml-4 flex items-center">
+        <span className="text-stone-800 ml-4 flex items-center">
           5.0
           <div className="flex ml-2">
             {[...Array(5)].map((_, i) => (
@@ -57,7 +57,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 font-semibold">Payment Method</span>
-        <span className="text-black ml-4 text-blue-500 font-semibold">
+        <span className="text-stone-800 ml-4 text-blue-500 font-semibold">
           {paymentMethod}
         </span>
       </div>

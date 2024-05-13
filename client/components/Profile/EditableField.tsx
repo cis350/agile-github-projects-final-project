@@ -15,7 +15,7 @@ const EditableField: React.FC<EditableFieldProps> = ({ label, name, type = "text
       <Field
         type={type}
         name={name}
-        className="ml-4 bg-transparent outline-none text-right text-black"
+        className="ml-4 bg-transparent outline-none text-right text-stone-800"
         placeholder={placeholder}
       />
       <ErrorMessage name={name} component="div" className="text-red-500 text-sm" />
