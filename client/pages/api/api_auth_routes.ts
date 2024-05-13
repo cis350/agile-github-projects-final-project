@@ -5,6 +5,7 @@ const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 let axiosConfig = {
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
+        'Authorization': localStorage.getItem("SavedToken")
     }
 };
 
@@ -13,11 +14,7 @@ export const login = async (username: string, password: string) => {
         username: username,
         email: username,
         password: password,
-    }, axiosConfig).then( (response) => {
-        let token = response.data.accessToken;
-        localStorage.setItem("SavedToken", token);
-        axios.defaults.headers.common['Authorization'] = token;
-    });
+    }, axiosConfig)
 }
 
 export const register = async (username: string, password: string) => {
@@ -28,3 +25,16 @@ export const register = async (username: string, password: string) => {
     }, axiosConfig);
 };
 
+export const bookRide = async (pickup_location: string,
+    dropoff_location: string,
+    pickup_window: string,
+    number_passengers: Number,
+    number_suitcases: Number) => {
+        return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/bookRide`, {
+            pickup_location: pickup_location,
+            dropoff_location: dropoff_location,
+            pickup_window: pickup_window,
+            number_passengers: number_passengers,
+            number_suitcases: number_suitcases
+        }, axiosConfig);
+    };

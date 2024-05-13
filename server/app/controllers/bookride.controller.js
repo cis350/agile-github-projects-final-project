@@ -3,19 +3,19 @@ const User = db.user;
 var jwt = require("jsonwebtoken");
 
 exports.bookRide = (req, res) => {
-    if (!req.body.pickup_location || 
-        !req.body.dropoff_location || 
-        !req.body.pickup_window || 
-        !req.body.number_passengers ||
-        !req.body.number_suitcases ||
-        req.body.pickup_location === "" || 
-        req.body.dropoff_location === "" || 
-        req.body.pickup_window === "" || 
-        req.body.number_passengers === "" ||
-        req.body.number_suitcases === "") {
-        res.status(400).send({message: "Missing Fields"});
-        return;
-    }
+    // if (!req.body.pickup_location || 
+    //     !req.body.dropoff_location || 
+    //     !req.body.pickup_window || 
+    //     !req.body.number_passengers ||
+    //     !req.body.number_suitcases ||
+    //     req.body.pickup_location === "" || 
+    //     req.body.dropoff_location === "" || 
+    //     req.body.pickup_window === "" || 
+    //     req.body.number_passengers === "" ||
+    //     req.body.number_suitcases === "") {
+    //     res.status(400).send({message: "Missing Fields"});
+    //     return;
+    // }
     var userId;
     if (req.headers && req.headers.authorization) {
         var authorization = req.headers.authorization,
@@ -47,4 +47,3 @@ exports.bookRide = (req, res) => {
         }
     });
 };
-

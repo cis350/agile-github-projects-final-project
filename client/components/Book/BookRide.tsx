@@ -3,6 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { MapPin, Users, SuitcaseRolling } from "@phosphor-icons/react";
 import WhiteCarImage from "../Home/WhiteCarImage";
+import { bookRide } from '@/pages/api/api_auth_routes';
 
 const BookRideSchema = Yup.object().shape({
   pickupLocation: Yup.string().required("Pickup location is required"),
@@ -28,8 +29,28 @@ const BookRide: React.FC = () => {
           suitcases: 0,
         }}
         validationSchema={BookRideSchema}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={async (values) => {
+          try {
+            const response = await bookRide(
+              values.pickupLocation,
+              "balls",
+              values.pickupTime,
+              values.passengers,
+              values.suitcases
+            );
+            if (response.status === 201) {
+              console.log('Ride book failed', response.data);
+              
+              // Redirect to dashboard or perform other success actions
+              // router.push("/");
+            }
+          } catch (error: any) {
+            console.error('Ride book failed', error.response?.data?.message);
+            // setErrorMessages(error.response?.data?.message);
+            // console.log("Error Message is " + errorMessages);
+          }
+
+                  
         }}
       >
         {({ setFieldValue, values }) => (
