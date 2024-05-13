@@ -5,7 +5,6 @@ const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 let axiosConfig = {
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
-        'Authorization': "balls"
     }
 };
 
@@ -31,12 +30,15 @@ export const bookRide = async (pickup_location: string,
     dropoff_location: string,
     pickup_window: string,
     number_passengers: Number,
-    number_suitcases: Number) => {
+    number_suitcases: Number,
+    authToken: string) => {
         return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/bookRide`, {
             pickup_location: pickup_location,
             dropoff_location: dropoff_location,
             pickup_window: pickup_window,
             number_passengers: number_passengers,
             number_suitcases: number_suitcases
-        }, axiosConfig);
+        }, {headers: {'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': authToken}
+        });
     };

@@ -1,6 +1,7 @@
 const db = require("../models");
 const User = db.user;
 var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 
 exports.bookRide = (req, res) => {
     // if (!req.body.pickup_location || 
@@ -21,7 +22,7 @@ exports.bookRide = (req, res) => {
         var authorization = req.headers.authorization,
             decoded;
         try {
-            decoded = jwt.verify(authorization, secret.secretToken);
+            decoded = jwt.verify(authorization, config.secret);
         } catch (e) {
             console.log(authorization);
             return res.status(401).send('unauthorized' + authorization);
