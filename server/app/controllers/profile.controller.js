@@ -94,7 +94,7 @@ exports.deleteProfile = (req, res) => {
     console.log(filter);
     User.findOne(filter)
     .then(doc => {
-        if (!doc) {
+        if (!doc || doc === null) {
             res.status(404).send({message: "User Not Found"});
         }
         doc.remove();
