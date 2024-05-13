@@ -64,7 +64,7 @@ const BookRide: React.FC = () => {
             }
           } catch (error: any) {
             console.error("Ride booking failed", error.response?.data?.message);
-            // Handle error messages if needed
+            alert("Ride booking failed! Check back again in a few minutes.")
           }
         }}
       >

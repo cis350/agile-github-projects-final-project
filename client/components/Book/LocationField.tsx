@@ -21,7 +21,7 @@ const LocationField: React.FC<LocationFieldProps> = ({
         size={24}
       />
       <Field
-        className="pl-11 p-3 bg-gray-100 rounded-3xl placeholder-gray-500 w-full"
+        className="pl-11 p-3 bg-gray-100 rounded-3xl text-black placeholder-black w-full"
         id={id}
         name={name}
         placeholder={placeholder}

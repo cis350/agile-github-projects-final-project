@@ -81,7 +81,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
           name="pickupTime"
           value={selectedOption}
           onChange={handleOptionChange}
-          className="pl-11 p-3 bg-gray-100 rounded-3xl placeholder-gray-500 w-full appearance-none"
+          className="pl-11 p-3 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
         >
           <option value="Now">Now</option>
           <option value="Later">Later</option>
@@ -95,7 +95,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
             name="selectTime"
             value={selectedTime}
             onChange={handleTimeChange}
-            className="p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full appearance-none"
+            className="p-3 px-4 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
           >
             <option value="" disabled>
               Select a time

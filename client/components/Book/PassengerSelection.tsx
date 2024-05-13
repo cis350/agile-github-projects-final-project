@@ -11,7 +11,7 @@ const PassengerSelection: React.FC = () => (
     />
     <Field
       as="select"
-      className="pl-11 p-3 bg-gray-100 rounded-3xl placeholder-gray-500 w-full appearance-none"
+      className="pl-11 p-3 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
       id="passengers"
       name="passengers"
     >
