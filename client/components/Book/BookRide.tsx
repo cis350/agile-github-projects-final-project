@@ -7,6 +7,7 @@ import TimeSelection from "./TimeSelection";
 import PassengerSelection from "./PassengerSelection";
 import SuitcaseSelection from "./SuitcaseSelection";
 import SubmitButton from "./SubmitButton";
+import { useRouter } from "next/router";
 
 const BookRideSchema = Yup.object().shape({
   pickupLocation: Yup.string()
@@ -27,6 +28,7 @@ const BookRideSchema = Yup.object().shape({
 });
 
 const BookRide: React.FC = () => {
+  const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<string>("Now");
   const [timeOptions, setTimeOptions] = useState<string[]>([]);
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -58,7 +60,7 @@ const BookRide: React.FC = () => {
             );
             if (response.status === 200) {
               console.log("Ride book success!", response.data);
-              // Redirect to dashboard or perform other success actions
+              router.push("/");
             }
           } catch (error: any) {
             console.error("Ride booking failed", error.response?.data?.message);
