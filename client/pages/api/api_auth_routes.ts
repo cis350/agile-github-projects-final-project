@@ -58,3 +58,8 @@ export const bookRide = async (pickup_location: string,
                 'Authorization': authToken}
             });
         };
+
+
+    export const fetchProfile = async (authToken: string) => {
+            return axios.get(`${NEXT_PUBLIC_API_BASE_URL}/api/profile/fetch/` + authToken)
+        };

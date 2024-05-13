@@ -8,7 +8,7 @@ import EditableField from "./EditableField";
 import RideshareApps from "./RideshareApps";
 import PaymentMethod from "./PaymentMethod";
 import ProfileView from "./ProfileView";
-import { editProfile } from '@/pages/api/api_auth_routes';
+import { editProfile, fetchProfile } from '@/pages/api/api_auth_routes';
 
 
 const validationSchema = Yup.object().shape({
@@ -43,10 +43,10 @@ const UserProfile: React.FC = () => {
         localStorage.getItem("SavedToken") ?? ""
       );
       if (response.status === 200) {
-        console.log('Update successful', response.data);
+        console.log('Fetch success', response.data);
       }
     } catch (error: any) {
-      console.error('Update failed', error.response?.data?.message);
+      console.error('Fetch failed', error.response?.data?.message);
     }
   };
 
@@ -58,6 +58,27 @@ const UserProfile: React.FC = () => {
   const addRideshareApp = (app: string) => {
     setRideshareApps((prev) => [...prev, app]);
   };
+
+  const getInitialValues = async () => {
+    try {
+      const response = await fetchProfile(localStorage.getItem("SavedToken") ?? "");
+      if (response.status === 200) {
+        console.log('Update successful', response.data);
+        return {email: response.data.email,
+          password: "",
+          rideshareApp: response.data.rideshareApp,
+          paymentMethod: response.data.paymentMethod};
+      }
+    } catch (error: any) {
+      console.error('Update failed', error.response?.data?.message);
+      return {
+        email: "andrewwu@gmail.com",
+        password: "",
+        rideshareApp: "",
+        paymentMethod,
+      };
+    }
+  }
 
   return (
     <div className="flex justify-center">
@@ -90,12 +111,7 @@ const UserProfile: React.FC = () => {
 
         {isEditing ? (
           <Formik
-            initialValues={{
-              email: "andrewwu@gmail.com",
-              password: "",
-              rideshareApp: "",
-              paymentMethod,
-            }}
+            initialValues={getInitialValues()}
             validationSchema={validationSchema}
             onSubmit={handleSaveChanges}
           >

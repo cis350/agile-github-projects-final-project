@@ -11,12 +11,24 @@ var bcrypt = require("bcryptjs");
  * @returns {void}
  */
 exports.fetchProfile = (req, res) => {
-    if (req.params.username === "" || req.params.username === undefined || req.params.username === null) {
-        res.status(400).send({message: "Missing username"});
-        return;
+    var userId;
+    if (req.params.username) {
+        var authorization = req.params.username,
+            decoded;
+        try {
+            decoded = jwt.verify(authorization, config.secret);
+        } catch (e) {
+            console.log(authorization);
+            return res.status(401).send('unauthorized' + authorization);
+        }
+        userId = decoded.id;
+    } else if (!req.params.username) {
+        return res.status(401).send("Invalid Access Token");
+    } else {
+        return res.status(500).send("Internal Server Error");
     }
     User.findOne({
-        username: req.params.username
+        id: userId
       })
     .exec((err, user) => {
         if (err) {
@@ -28,11 +40,10 @@ exports.fetchProfile = (req, res) => {
             res.status(404).send({message: "User Not Found"});
         } else {
             res.status(200).send({
-                phone: user.phone ?? "",
-                dropoffLocation: user.dropoffLocation ?? "",
-                stars: user.stars ?? "",
+                email: user.phone ?? "",
+                rideshareApp: user.preferred_rideshare_app ?? [],
+                stars: user.stars ?? 5,
                 paymentMethod: user.paymentMethod ?? "",
-                maxRiders: user.maxRiders ?? ""
             });
         }
     });
