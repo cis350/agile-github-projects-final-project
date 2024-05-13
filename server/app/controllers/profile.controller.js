@@ -1,6 +1,14 @@
 const db = require("../models");
 const User = db.user;
+var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 
+/**
+ * Fetches the profile of a user based on the provided username.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.fetchProfile = (req, res) => {
     if (req.params.username === "" || req.params.username === undefined || req.params.username === null) {
         res.status(400).send({message: "Missing username"});
@@ -29,12 +37,32 @@ exports.fetchProfile = (req, res) => {
     });
 };
 
+/**
+ * Updates the profile information of the authenticated user.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.updateProfile = (req, res) => {
-    const filter = {username: req.body.username};
-    if (req.body.username === "" || req.body.username === undefined || req.body.username === null) {
-        res.status(400).send({message: "Missing username"});
-        return;
+    var userId;
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization,
+            decoded;
+        try {
+            decoded = jwt.verify(authorization, config.secret);
+        } catch (e) {
+            console.log(authorization);
+            return res.status(401).send('unauthorized' + authorization);
+        }
+        userId = decoded.id;
+    } else if (!req.headers.authorization) {
+        return res.status(401).send("Invalid Access Token");
+    } else {
+        return res.status(500).send("Internal Server Error");
     }
+    const filter = {id: userId};
+    
+    
     const update = {
         phone: req.body.phone, 
         dropoffLocation: req.body.dropoffLocation, 
@@ -60,12 +88,31 @@ exports.updateProfile = (req, res) => {
     });
 };
 
+
+/**
+ * Logs out the authenticated user by invalidating the access token.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.logout = (req, res) => {
-    if (req.body.username === "" || req.body.username === undefined || req.body.username === null) {
-        res.status(400).send({message: "Missing username"});
-        return;
+    var userId;
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization,
+            decoded;
+        try {
+            decoded = jwt.verify(authorization, config.secret);
+        } catch (e) {
+            console.log(authorization);
+            return res.status(401).send('unauthorized' + authorization);
+        }
+        userId = decoded.id;
+    } else if (!req.headers.authorization) {
+        return res.status(401).send("Invalid Access Token");
+    } else {
+        return res.status(500).send("Internal Server Error");
     }
-    const filter = {username: req.body.username};
+    const filter = {id: userId};
     const update = {
         accessToken: undefined
     };
@@ -84,17 +131,33 @@ exports.logout = (req, res) => {
     });
 };
 
+/**
+ * Deletes the profile of the authenticated user.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.deleteProfile = (req, res) => {
-    
-    const filter = {username: req.body.username};
-    if (req.body.username === "" || req.body.username === undefined || req.body.username === null) {
-        res.status(400).send({message: "Missing username"});
-        return;
+    var userId;
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization,
+            decoded;
+        try {
+            decoded = jwt.verify(authorization, config.secret);
+        } catch (e) {
+            console.log(authorization);
+            return res.status(401).send('unauthorized' + authorization);
+        }
+        userId = decoded.id;
+    } else if (!req.headers.authorization) {
+        return res.status(401).send("Invalid Access Token");
+    } else {
+        return res.status(500).send("Internal Server Error");
     }
-    console.log(filter);
+    const filter = {id: userId};
     User.findOne(filter)
     .then(doc => {
-        if (!doc) {
+        if (!doc || doc === null) {
             res.status(404).send({message: "User Not Found"});
         }
         doc.remove();

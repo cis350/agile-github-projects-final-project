@@ -108,15 +108,18 @@ const BookRide: React.FC = () => {
         validationSchema={BookRideSchema}
         onSubmit={async (values) => {
           try {
+            
             const response = await bookRide(
               values.pickupLocation,
               values.dropoffLocation,
               values.pickupTime,
               values.passengers,
-              values.suitcases
+              values.suitcases,
+              localStorage.getItem("SavedToken") ?? ""
             );
-            if (response.status === 201) {
-              console.log("Ride booked successfully", response.data);
+            if (response.status === 200) {
+              console.log('Ride book success!', response.data);
+              
               // Redirect to dashboard or perform other success actions
               // router.push("/");
             }
