@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PencilSimple } from "@phosphor-icons/react";
 import Image from "next/image";
 import { Formik, Form } from "formik";
@@ -23,8 +23,28 @@ const convertArrayToString = (array: string[]): string => {
 
 const UserProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [rendered, setRendered] = useState(false);
+  const [email, setEmail] = useState("");
   const [rideshareApps, setRideshareApps] = useState<string[]>(["Lyft", "Uber"]);
   const [paymentMethod, setPaymentMethod] = useState("Venmo");
+
+  useEffect(() => {
+    if (!rendered) {
+      setRendered(true);
+      fetchProfile(localStorage.getItem("SavedToken") ?? "")
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Fetch Successful', response.data);
+          setEmail(response.data.email ?? "");
+          setRideshareApps(response.data.rideshareApp ?? "");
+          setPaymentMethod(response.data.paymentMethod ?? "");
+        }
+      }
+      ).catch((error) => {
+        console.error('Update failed', error.response?.data?.message);
+      })
+    }  
+  }, [rendered]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -38,15 +58,16 @@ const UserProfile: React.FC = () => {
       const response = await editProfile(
         values.email, 
         values.password,
-        values.rideshareApp,
+        rideshareAppsString,
         values.paymentMethod,
         localStorage.getItem("SavedToken") ?? ""
       );
       if (response.status === 200) {
-        console.log('Fetch success', response.data);
+        console.log('Save success', response.data);
+        setRendered(false);
       }
     } catch (error: any) {
-      console.error('Fetch failed', error.response?.data?.message);
+      console.error('Save failed', error.response?.data?.message);
     }
   };
 
@@ -59,26 +80,37 @@ const UserProfile: React.FC = () => {
     setRideshareApps((prev) => [...prev, app]);
   };
 
-  const getInitialValues = async () => {
+  const getInitialValues = () => {
     try {
-      const response = await fetchProfile(localStorage.getItem("SavedToken") ?? "");
-      if (response.status === 200) {
-        console.log('Update successful', response.data);
-        return {email: response.data.email,
-          password: "",
-          rideshareApp: response.data.rideshareApp,
-          paymentMethod: response.data.paymentMethod};
+      const res = fetchProfile(localStorage.getItem("SavedToken") ?? "")
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Update successful', response.data);
+          setEmail(response.data.email);
+          setRideshareApps(response.data.rideshareApp);
+          setPaymentMethod(response.data.paymentMethod);
+          return {email: response.data.email ?? "",
+            password: "",
+            rideshareApp: response.data.rideshareApp ?? [],
+            paymentMethod: response.data.paymentMethod ?? ""};
+        }
       }
+      ).catch((error) => {
+        console.error('Update failed', error.response?.data?.message);
+        return {
+          email: "andrewwu@gmail.com",
+          password: "",
+          rideshareApp: "",
+          paymentMethod,
+        };
+      })
+      
     } catch (error: any) {
-      console.error('Update failed', error.response?.data?.message);
-      return {
-        email: "andrewwu@gmail.com",
-        password: "",
-        rideshareApp: "",
-        paymentMethod,
-      };
+      
     }
   }
+
+  
 
   return (
     <div className="flex justify-center">
@@ -111,7 +143,12 @@ const UserProfile: React.FC = () => {
 
         {isEditing ? (
           <Formik
-            initialValues={getInitialValues()}
+            initialValues={{
+              email: email,
+              password: "",
+              rideshareApp: rideshareApps,
+              paymentMethod: paymentMethod
+            }}
             validationSchema={validationSchema}
             onSubmit={handleSaveChanges}
           >
@@ -158,7 +195,7 @@ const UserProfile: React.FC = () => {
           </Formik>
         ) : (
           <ProfileView
-            email="andrewwu@gmail.com"
+            email={email}
             rideshareApps={rideshareApps}
             paymentMethod={paymentMethod}
           />
