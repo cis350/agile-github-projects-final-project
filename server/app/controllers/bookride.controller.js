@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.user;
+const Booking = db.booking;
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
@@ -53,10 +54,17 @@ exports.bookRide = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
-        console.log(req.params.username);
         if (!user) {
             res.status(404).send({message: "User Not Found"});
         } else {
+            Booking.insertMany({
+                username: user.username,
+                pickup_location: req.body.pickup_location,
+                dropoff_location: req.body.dropoff_location,
+                pickup_window: req.body.pickup_window,
+                number_passengers: req.body.number_passengers,
+                number_suitcases: req.body.number_suitcases
+            })
             res.status(200).send({ message: "Ride Requested Successfully" });
             return;
         }
