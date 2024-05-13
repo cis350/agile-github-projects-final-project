@@ -1,5 +1,6 @@
 import React from "react";
 import { SignOut } from "@phosphor-icons/react";
+import { useRouter } from "next/router";
 
 interface ProfileViewProps {
   email: string;
@@ -12,6 +13,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({
   rideshareApps,
   paymentMethod,
 }) => {
+  const router = useRouter();
+  const logOutFunction = () => {
+    localStorage.removeItem("SavedToken");
+    router.push("/login");
+  };
   return (
     <div className="mt-6 space-y-4 min-w-[40vw]">
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
@@ -56,7 +62,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
         </span>
       </div>
       <div className="mt-6 flex space-x-4">
-        <button className="bg-gray-800 text-white py-2 px-4 rounded-3xl flex items-center justify-center w-1/2">
+        <button
+          className="bg-gray-800 text-white py-2 px-4 rounded-3xl flex items-center justify-center w-1/2 hover:bg-gray-700 active:bg-gray-900"
+          onClick={logOutFunction}
+        >
           <SignOut size={20} />
           <span className="ml-2">Logout</span>
         </button>
