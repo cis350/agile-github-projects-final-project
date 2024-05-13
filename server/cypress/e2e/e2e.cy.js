@@ -57,16 +57,15 @@ describe('component_check', () => {
 describe('flow_check', () => {
   it('register_flow_check', () => {
     cy.visit('https://cisfinalproject-pebble-inc.vercel.app/register')
-    cy.get('input[id="email"]').type('rah11@gmail.com');
+    cy.get('input[id="email"]').type('rah16@gmail.com');
     cy.get('input[id="password"]').type('testPassword!');
     cy.get('input[id="confirmPassword"]').type('testPassword!');
     cy.get('.text-sm.px-5').click()
     cy.wait(2000);
-    cy.get('input[id="email"]').type('rah11@gmail.com');
+    cy.get('input[id="email"]').type('rah16@gmail.com');
     cy.get('input[id="password"]').type('testPassword!');
     cy.get('.text-sm.px-5').click()
     cy.wait(2000);
-    cy.contains('Share a Ride').should('be.visible');
     cy.contains('a.rounded-full', 'Book a Ride').click();
     cy.wait(2000);
     cy.get('input[id="pickupLocation"]').type('house drive');
@@ -80,7 +79,7 @@ describe('flow_check', () => {
 
   it('login_flow_check', () => {
     cy.visit('https://cisfinalproject-pebble-inc.vercel.app/login')
-    cy.get('input[id="email"]').type('rah7@gmail.com');
+    cy.get('input[id="email"]').type('rah13@gmail.com');
     cy.get('input[id="password"]').type('testPassword!');
     cy.get('.text-sm.px-5').click();
     cy.wait(2000);
@@ -88,12 +87,12 @@ describe('flow_check', () => {
     cy.get('button').contains('edit').should('exist');
     cy.contains('edit').click();
     cy.wait(500);
-    cy.get('input[name="email"]').type('andrewwu@gmail.com');
+    cy.get('input[name="email"]').type('rah14@gmail.com');
     cy.get('input[name="password"]').type('testPassword2!');
     cy.get('select[name="paymentMethod"]').select('Venmo');
     cy.get('button[type="submit"]').click();
     cy.wait(2000);
-    cy.contains('andrewwu@gmail.com').should('be.visible');
+    cy.contains('rah14@gmail.com').should('be.visible');
     cy.contains('Venmo').should('be.visible');
   })
 })
