@@ -151,4 +151,62 @@ describe('POST /update endpoint tests', () => {
       .send('username=testuser&phoneNumber=9732349853');
     expect(res.status).toEqual(200);
   });
+
+  test('test update max riders', async () => {
+    const res = await request(webapp).post(`/api/profile/update`)
+      .send('username=testuser&maxRiders=2');
+    expect(res.status).toEqual(200);
+  });
+
+  
 })
+
+describe('POST /bookride endpoint tests', () => {
+
+  /**
+     * Make sure that the data is in the DB before running
+     * any test
+     * connect to the DB
+     */
+  beforeAll(async () => {
+    // add test user to mongodb
+    await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+  });
+
+  /**
+ * Delete all test data from the DB
+ * Close all open connections
+ */
+  afterAll(async () => {
+    try {
+      await request(webapp).post('/api/profile/delete')
+      .send(`username=testuser`);
+    } catch (err) {
+      return err;
+    }
+  });
+
+  test('test bookride some fields empty', async () => {
+    const res = await request(webapp).post(`/api/bookride`)
+      .send('number_passengers=4&number_suitcases=1');
+    expect(res.status).toEqual(400);
+  });
+
+  test('test bookride unauthorized', async () => {
+    const res = await request(webapp).post(`/api/bookride`)
+      .send('pickup_location=Baggage Claim 6&dropoff_location=3200 Chestnut St.&pickup_window=4:00 pm&number_passengers=4&number_suitcases=1');
+    expect(res.status).toEqual(401);
+  });
+
+  test('test bookride successful', async () => {
+    const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+    token = JSON.parse(response.text).accessToken;
+    console.log(token);
+    const res = await request(webapp).post(`/api/bookride`)
+      .set("Authorization", token).send('pickup_location=Baggage Claim 6&dropoff_location=3200 Chestnut St.&pickup_window=4:00 pm&number_passengers=4&number_suitcases=1');
+    expect(res.status).toEqual(200);
+  });
+ 
+});
