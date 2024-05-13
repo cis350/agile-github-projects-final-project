@@ -28,6 +28,8 @@ exports.bookRide = (req, res) => {
             return res.status(401).send('unauthorized' + authorization);
         }
         userId = decoded.id;
+    } else if (!req.headers.authorization) {
+        return res.status(401).send("Invalid Access Token");
     } else {
         return res.status(500).send("Internal Server Error");
     }
