@@ -17,7 +17,7 @@ const BookRideSchema = Yup.object().shape({
 
 const BookRide: React.FC = () => {
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
+    <div className="max-w-md p-6">
       <h2 className="text-2xl font-semibold mb-4">Book a Ride</h2>
       <WhiteCarImage />
       <Formik
