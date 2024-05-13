@@ -12,8 +12,8 @@ var bcrypt = require("bcryptjs");
  */
 exports.fetchProfile = (req, res) => {
     var userId;
-    if (req.params.username) {
-        var authorization = req.params.username,
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization,
             decoded;
         try {
             decoded = jwt.verify(authorization, config.secret);
@@ -22,7 +22,7 @@ exports.fetchProfile = (req, res) => {
             return res.status(401).send('unauthorized' + authorization);
         }
         userId = decoded.id;
-    } else if (!req.params.username) {
+    } else if (!req.headers.authorization) {
         return res.status(401).send("Invalid Access Token");
     } else {
         return res.status(500).send("Internal Server Error");

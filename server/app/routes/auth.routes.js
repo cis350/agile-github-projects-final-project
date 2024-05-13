@@ -28,5 +28,4 @@ module.exports = function(app) {
   // Route for user signin
   app.post("/api/auth/signin", controller.signin);
   // Route for fetching user details
-  app.post("/api/auth/user", controller.user);
 };

@@ -153,24 +153,3 @@ exports.signin = (req, res) => {
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
-exports.user = (req, res) => {
-  User.find({
-    id: req.body.id
-  })
-    .populate("roles", "-__v")
-    .exec((err, user) => {
-      if (err) {
-        res.status(400).send({ message: err });
-        return;
-      }
-
-      if (!user) {
-        return res.status(400).send({ message: "User Not found." });
-      }
-
-      res.status(201).send({
-        id: user._id,
-        username: user.username,
-      });
-    });
-};

@@ -108,7 +108,10 @@ describe('GET /fetch endpoint tests', () => {
   });
 
   test('test success fetch', async () => {
-    const res = await request(webapp).get(`/api/profile/fetch/testuser`)
+    const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      jwttoken = JSON.parse(response.text).accessToken;
+    const res = await request(webapp).get(`/api/profile/fetch/` + jwttoken)
 
     expect(res.status).toEqual(200);
   });
@@ -117,7 +120,7 @@ describe('GET /fetch endpoint tests', () => {
     const res = await request(webapp).get(`/api/profile/fetch/nonexist`);
     
 
-    expect(res.status).toEqual(404);  
+    expect(res.status).toEqual(401);  
   });
 })
 

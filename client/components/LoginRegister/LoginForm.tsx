@@ -31,6 +31,7 @@ const Login: React.FC = () => {
         if (response.status === 201) {
           console.log('Login successful', response.data);
           let token = response.data.accessToken;
+          localStorage.removeItem("SavedToken")
           localStorage.setItem("SavedToken", token);    
           router.push("/");
         }
