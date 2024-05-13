@@ -42,3 +42,19 @@ export const bookRide = async (pickup_location: string,
             'Authorization': authToken}
         });
     };
+
+
+    export const editProfile = async (email: string,
+        password: string,
+        preferred_rideshare_app: string,
+        paymentMethod: Number,
+        authToken: string) => {
+            return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/profile/editProfile`, {
+                email: email,
+                password: password,
+                preferred_rideshare_app: preferred_rideshare_app,
+                paymentMethod: paymentMethod
+            }, {headers: {'Content-Type': 'application/json;charset=UTF-8',
+                'Authorization': authToken}
+            });
+        };

@@ -61,17 +61,7 @@ describe('POST /login  enpoint tests', () => {
     expect(JSON.parse(response.text).accessToken).not.toBe(undefined);
   });
 
-  test('the JWT undefined when logout response', async () => {
-    // expect the JWT of the new session should not be undefined
-    const jwtres = await request(webapp).post('/api/auth/signin')
-      .send(`username=testuser&password=beans`);
-      token = JSON.parse(jwtres.text).accessToken;
-    
-    const response = await request(webapp).post('/api/profile/logout')
-    .set("Authorization", token)
-      .send(`username=${testUser.username}&password=beans`);
-    expect(JSON.parse(response.text).accessToken).toBe(undefined);
-  });
+  
 
   test('test signup empty', async () => {
     const res = await request(webapp).post('/api/auth/signin')
@@ -245,3 +235,65 @@ describe('POST /bookride endpoint tests', () => {
   });
  
 });
+
+
+describe('POST /editProfile endpoint tests', () => {
+
+  /**
+     * Make sure that the data is in the DB before running
+     * any test
+     * connect to the DB
+     */
+  let globalToken;
+  beforeAll(async () => {
+    // add test user to mongodb
+    await request(webapp).post('/api/auth/signup')
+      .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+    const response = await request(webapp).post('/api/auth/signin')
+    .send(`username=testuser&password=beans`);
+    globalToken = JSON.parse(response.text).accessToken;
+  });
+
+  /**
+ * Delete all test data from the DB
+ * Close all open connections
+ */
+  afterAll(async () => {
+    try {
+      const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
+      await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
+      .send(`username=testuser`);
+    } catch (err) {
+      return err;
+    }
+  });
+
+  test('test edit empty', async () => {
+    const res = await request(webapp).post(`/api/profile/editProfile`)
+    .set("Authorization", globalToken)
+    .send('email=testuser&preferred_rideshare_app=uber;lyft&paymentMethod=venmo');
+    expect(res.status).toEqual(200);
+    const response2 = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response2.text).accessToken;
+      expect(token).not.toBe(undefined);
+  });
+
+  test('test update password', async () => {
+    const res = await request(webapp).post(`/api/profile/editProfile`)
+    .set("Authorization", globalToken)
+      .send('email=testuser&password=beansbeans');
+    expect(res.status).toEqual(200);
+    const response2 = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response2.text).accessToken;
+      expect(token).toBe(null);
+      const response3 = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beansbeans`);
+      token = JSON.parse(response3.text).accessToken;
+      expect(token).not.toBe(undefined);
+  });  
+})

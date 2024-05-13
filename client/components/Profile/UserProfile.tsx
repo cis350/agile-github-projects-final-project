@@ -8,6 +8,8 @@ import EditableField from "./EditableField";
 import RideshareApps from "./RideshareApps";
 import PaymentMethod from "./PaymentMethod";
 import ProfileView from "./ProfileView";
+import { editProfile } from '@/pages/api/api_auth_routes';
+
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -28,10 +30,24 @@ const UserProfile: React.FC = () => {
     setIsEditing(true);
   };
 
-  const handleSaveChanges = (values: any) => {
+  const handleSaveChanges = async (values: any) => {
     const rideshareAppsString = convertArrayToString(rideshareApps);
     setIsEditing(false);
     console.log("Saved values:", values);
+    try {
+      const response = await editProfile(
+        values.email, 
+        values.password,
+        values.rideshareApp,
+        values.paymentMethod,
+        localStorage.getItem("SavedToken") ?? ""
+      );
+      if (response.status === 200) {
+        console.log('Update successful', response.data);
+      }
+    } catch (error: any) {
+      console.error('Update failed', error.response?.data?.message);
+    }
   };
 
   const handleDiscardChanges = (resetForm: any) => {

@@ -17,6 +17,8 @@ module.exports = function(app) {
   app.get("/api/profile/fetch/:username", controller.fetchProfile);
   // Route for user profile update
   app.post("/api/profile/update", controller.updateProfile);
+  // Route for user profile edit
+  app.post("/api/profile/editProfile", controller.editProfile);
   // Route for delete profile
   app.post("/api/profile/delete", controller.deleteProfile);
   // Route for logout profile
