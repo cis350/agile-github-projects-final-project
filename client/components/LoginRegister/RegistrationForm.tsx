@@ -54,13 +54,13 @@ const Register: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[90vh] bg-white">
       <div className="flex flex-col p-8 bg-gray-100 shadow-sm rounded-xl w-96">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Register</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-stone-800">Register</h2>
         <form onSubmit={formik.handleSubmit}>
           {/* Email Input */}
           <div className="mb-2">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-800"
             >
               Email
             </label>
@@ -72,7 +72,7 @@ const Register: React.FC = () => {
                 formik.touched.email && formik.errors.email
                   ? "border-[1px] border-red-500"
                   : "border-gray-300"
-              } rounded-md shadow-sm text-sm text-gray-800`}
+              } rounded-md shadow-sm text-sm text-stone-800`}
             />
             {formik.touched.email && formik.errors.email && (
               <p className="mt-1 text-xs text-red-600">{formik.errors.email}</p>
@@ -83,7 +83,7 @@ const Register: React.FC = () => {
           <div className="mb-2 relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-800"
             >
               Password
             </label>
@@ -95,11 +95,12 @@ const Register: React.FC = () => {
                 formik.touched.password && formik.errors.password
                   ? "border-[1px] border-red-500"
                   : "border-gray-300"
-              } rounded-md shadow-sm text-sm text-gray-800`}
+              } rounded-md shadow-sm text-sm text-stone-800`}
             />
             <div className="absolute inset-y-[42px] right-0 pr-3 flex items-center text-sm leading-5">
               <button
                 type="button"
+                className="text-stone-800"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
@@ -116,7 +117,7 @@ const Register: React.FC = () => {
           <div className="mb-4 relative">
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-stone-800"
             >
               Confirm Password
             </label>
@@ -128,11 +129,12 @@ const Register: React.FC = () => {
                 formik.touched.confirmPassword && formik.errors.confirmPassword
                   ? "border-[1px] border-red-500"
                   : "border-gray-300"
-              } rounded-md shadow-sm text-sm text-gray-800`}
+              } rounded-md shadow-sm text-sm text-stone-800`}
             />
             <div className="absolute inset-y-[42px] right-0 pr-3 flex items-center text-sm leading-5">
               <button
                 type="button"
+                className="text-stone-800"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? (
@@ -161,7 +163,7 @@ const Register: React.FC = () => {
           </div>
         </form>
         <div>
-          <p className="text-left text-gray-800 mt-4 text-xs">
+          <p className="text-left text-stone-800 mt-4 text-xs">
             Already have an account?
             <Link href="login">
               <span className="font-inter font-bold text-black"> Login</span>

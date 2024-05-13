@@ -6,12 +6,12 @@ const PassengerSelection: React.FC = () => (
   <div className="relative">
     <Users
       weight="light"
-      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black"
+      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-800"
       size={24}
     />
     <Field
       as="select"
-      className="pl-11 p-3 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
+      className="pl-11 p-3 bg-gray-100 rounded-3xl text-stone-800 placeholder-stone-800 w-full appearance-none"
       id="passengers"
       name="passengers"
     >

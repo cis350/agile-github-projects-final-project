@@ -30,7 +30,7 @@ const HomePageForm = () => {
             <input
               type="text"
               placeholder="Enter pick up location"
-              className="pl-10 p-4 bg-gray-100 rounded-3xl placeholder:text-gray-500"
+              className="pl-10 p-4 bg-gray-100 rounded-3xl text-stone-800 placeholder:text-gray-500"
               autoComplete="address-line1"
             />
           </div>
@@ -43,7 +43,7 @@ const HomePageForm = () => {
             <input
               type="text"
               placeholder="Enter drop off location"
-              className="pl-10 p-4 bg-gray-100 rounded-3xl placeholder:text-gray-500"
+              className="pl-10 p-4 bg-gray-100 rounded-3xl text-stone-800 placeholder:text-gray-500"
               autoComplete="address-line1"
             />
           </div>
@@ -56,7 +56,7 @@ const HomePageForm = () => {
       </div>
       {/* How It Works Section */}
       <div className="my-20 mt-56">
-        <h2 className="text-3xl text-center font-semibold mb-10">
+        <h2 className="text-3xl text-center font-semibold mb-10 text-stone-800">
           How It Works
         </h2>
         <div className="h-[100vh]">
@@ -69,18 +69,18 @@ const HomePageForm = () => {
 
         <div className="flex flex-row items-start justify-evenly">
           <div className="flex flex-col items-center space-y-2 w-40 justify-center">
-            <div className="text-3xl font-semibold text-center">50%</div>
-            <p className="text-xl text-center">savings on all rides</p>
+            <div className="text-3xl font-semibold text-center text-stone-800">50%</div>
+            <p className="text-xl text-center text-stone-800 ">savings on all rides</p>
           </div>
           <div className="flex flex-col items-center space-y-2 w-40 justify-center">
-            <div className="text-3xl font-semibold text-center">50%</div>
-            <p className="text-xl text-center">
+            <div className="text-3xl font-semibold text-center text-stone-800 ">50%</div>
+            <p className="text-xl text-center text-stone-800 ">
               wait time decreased on all rides
             </p>
           </div>
           <div className="flex flex-col items-center space-y-2 justify-center w-40">
-            <div className="text-3xl font-semibold text-center">100%</div>
-            <p className="text-xl text-center">friendship guaranteed</p>
+            <div className="text-3xl font-semibold text-center text-stone-800 ">100%</div>
+            <p className="text-xl text-center text-stone-800 ">friendship guaranteed</p>
           </div>
         </div>
         <div className="h-[80vh] mt-20 flex flex-row">

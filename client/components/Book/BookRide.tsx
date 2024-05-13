@@ -35,7 +35,7 @@ const BookRide: React.FC = () => {
 
   return (
     <div className="w-[35vw] p-6">
-      <h2 className="text-2xl font-semibold mb-4">Book a Ride</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-stone-800">Book a Ride</h2>
       <Formik
         initialValues={{
           pickupLocation: "",

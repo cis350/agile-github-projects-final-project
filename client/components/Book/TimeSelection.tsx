@@ -72,7 +72,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
       <div className="relative mt-1">
         <Clock
           weight="light"
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-800"
           size={24}
         />
         <Field
@@ -81,7 +81,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
           name="pickupTime"
           value={selectedOption}
           onChange={handleOptionChange}
-          className="pl-11 p-3 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
+          className="pl-11 p-3 bg-gray-100 rounded-3xl text-stone-800 placeholder-stone-800 w-full appearance-none"
         >
           <option value="Now">Now</option>
           <option value="Later">Later</option>
@@ -95,7 +95,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
             name="selectTime"
             value={selectedTime}
             onChange={handleTimeChange}
-            className="p-3 px-4 bg-gray-100 rounded-3xl text-black placeholder-black w-full appearance-none"
+            className="p-3 px-4 bg-gray-100 rounded-3xl text-stone-800 placeholder-stone-800 w-full appearance-none"
           >
             <option value="" disabled>
               Select a time
@@ -108,7 +108,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({
           </Field>
           <CaretDown
             weight="light"
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-stone-800"
             size={24}
           />
         </div>
