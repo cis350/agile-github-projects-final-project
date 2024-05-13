@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PencilSimple } from "@phosphor-icons/react";
 import Image from "next/image";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ProfilePic from "@/public/man1.jpeg";
 import EditableField from "./EditableField";
@@ -13,7 +13,9 @@ import { editProfile, fetchProfile } from "@/pages/api/api_auth_routes";
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(6, "Password must be at least 6 characters"),
-  rideshareApp: Yup.array().min(1, "At least one ride share app must be chosen").required("Required"),
+  rideshareApps: Yup.array()
+    .min(1, "At least one ride share app must be chosen")
+    .required("Required"),
 });
 
 const convertArrayToString = (array: string[]): string => {
@@ -43,7 +45,8 @@ const UserProfile: React.FC = () => {
             setInitialValues({
               email,
               password: "",
-              rideshareApps: rideshareApps.length > 0 ? rideshareApps : ["Lyft", "Uber"],
+              rideshareApps:
+                rideshareApps.length > 0 ? rideshareApps : ["Lyft", "Uber"],
               paymentMethod: paymentMethod.length > 0 ? paymentMethod : "Venmo",
             });
           }
@@ -87,7 +90,7 @@ const UserProfile: React.FC = () => {
 
   const addRideshareApp = (app: string, setFieldValue: any, values: any) => {
     const updatedApps = [...(values.rideshareApp || []), app];
-    setFieldValue('rideshareApps', updatedApps);
+    setFieldValue("rideshareApps", updatedApps);
   };
 
   return (
@@ -141,17 +144,24 @@ const UserProfile: React.FC = () => {
                 />
                 <RideshareApps
                   rideshareApps={values.rideshareApps}
-                  addRideshareApp={(app: string) => addRideshareApp(app, setFieldValue, values)}
+                  addRideshareApp={(app: string) =>
+                    addRideshareApp(app, setFieldValue, values)
+                  }
                   setFieldValue={setFieldValue}
                 />
                 <PaymentMethod
                   paymentMethod={values.paymentMethod}
                   setFieldValue={setFieldValue}
                 />
+                <ErrorMessage
+                  name={"rideshareApps"}
+                  component="span"
+                  className="text-red-500 text-sm bg-red-100 px-4 py-3 rounded-lg mt-2 block"
+                />
                 <div className="mt-6 flex space-x-4">
                   <button
                     type="submit"
-                    className="bg-gray-800 text-white py-2 px-4 rounded-3xl flex items-center justify-center w-1/2"
+                    className="bg-gray-800 text-white py-2 px-4 rounded-3xl flex items-center justify-center w-1/2 hover:bg-gray-700 active:bg-gray-900"
                   >
                     Save Changes
                   </button>
@@ -179,4 +189,3 @@ const UserProfile: React.FC = () => {
 };
 
 export default UserProfile;
-

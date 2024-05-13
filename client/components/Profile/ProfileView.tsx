@@ -57,7 +57,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 font-semibold">Payment Method</span>
-        <span className="text-stone-800 ml-4 text-blue-500 font-semibold">
+        <span className="ml-4 text-blue-500 font-semibold">
           {paymentMethod}
         </span>
       </div>
