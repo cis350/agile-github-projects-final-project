@@ -10,7 +10,7 @@ let axiosConfig = {
 };
 
 export const login = async (username: string, password: string) => {
-    return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
+    const response = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
         username: username,
         email: username,
         password: password,
