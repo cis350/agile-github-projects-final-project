@@ -3,6 +3,12 @@ const User = db.user;
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
+/**
+ * Book a ride by validating request data and user authorization.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.bookRide = (req, res) => {
     if (!req.body.pickup_location || 
         !req.body.dropoff_location || 
@@ -33,7 +39,12 @@ exports.bookRide = (req, res) => {
     } else {
         return res.status(500).send("Internal Server Error");
     }
-
+    /**
+     * Find a user by their ID and execute the callback.
+     * @param {object} err - The error object.
+     * @param {object} user - The user object.
+     * @returns {void}
+     */
     User.findOne({
         id: userId
       })

@@ -2,6 +2,13 @@ const db = require("../models");
 const User = db.user;
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
+
+/**
+ * Fetches the profile of a user based on the provided username.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.fetchProfile = (req, res) => {
     if (req.params.username === "" || req.params.username === undefined || req.params.username === null) {
         res.status(400).send({message: "Missing username"});
@@ -30,6 +37,12 @@ exports.fetchProfile = (req, res) => {
     });
 };
 
+/**
+ * Updates the profile information of the authenticated user.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.updateProfile = (req, res) => {
     var userId;
     if (req.headers && req.headers.authorization) {
@@ -75,6 +88,13 @@ exports.updateProfile = (req, res) => {
     });
 };
 
+
+/**
+ * Logs out the authenticated user by invalidating the access token.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.logout = (req, res) => {
     var userId;
     if (req.headers && req.headers.authorization) {
@@ -111,6 +131,12 @@ exports.logout = (req, res) => {
     });
 };
 
+/**
+ * Deletes the profile of the authenticated user.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {void}
+ */
 exports.deleteProfile = (req, res) => {
     var userId;
     if (req.headers && req.headers.authorization) {
