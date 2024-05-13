@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BookingForm from "@/components/Book/BookRide";
+import BookRideForm from "@/components/Book/BookRide";
+import WhiteCarImage from "@/components/Home/WhiteCarImage";
 
-export default function Login() {
-  const [pickupLocation, setPickupLocation] = useState(
-    "4035 S 40th St, Philadelphia, PA"
-  );
-  const [dropOffLocation, setDropOffLocation] = useState(
-    "Central Park, New York, NY"
-  );
+export default function BookRide() {
   return (
     <div className="w-full h-full bg-white font-inter">
       <Header />
-      <BookingForm />
+      <div className="flex flex-row p-16 min-h-[80vh]">
+        <BookRideForm />
+        <WhiteCarImage />
+      </div>
+
       <Footer />
     </div>
   );
