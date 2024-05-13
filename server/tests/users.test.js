@@ -31,9 +31,18 @@ describe('POST /login  enpoint tests', () => {
   afterAll(async () => {
     // we need to clear the DB
     try {
+      const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
       await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
       .send(`username=testuser`);
+
+      const response2 = await request(webapp).post('/api/auth/signin')
+      .send(`username=cdef&password=beans`);
+      token = JSON.parse(response2.text).accessToken;
       await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
       .send(`username=cdef`);
     } catch (err) {
       return err;
@@ -45,6 +54,7 @@ describe('POST /login  enpoint tests', () => {
    */
 
   test('the JWT is in the response', async () => {
+    
     // expect the JWT of the new session should not be undefined
     const response = await request(webapp).post('/api/auth/signin')
       .send(`username=${testUser.username}&password=beans`);
@@ -53,9 +63,12 @@ describe('POST /login  enpoint tests', () => {
 
   test('the JWT undefined when logout response', async () => {
     // expect the JWT of the new session should not be undefined
-    await request(webapp).post('/api/auth/signin')
-      .send(`username=${testUser.username}&password=beans`);
+    const jwtres = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(jwtres.text).accessToken;
+    
     const response = await request(webapp).post('/api/profile/logout')
+    .set("Authorization", token)
       .send(`username=${testUser.username}&password=beans`);
     expect(JSON.parse(response.text).accessToken).toBe(undefined);
   });
@@ -93,7 +106,11 @@ describe('GET /fetch endpoint tests', () => {
  */
   afterAll(async () => {
     try {
+      const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
       await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
       .send(`username=testuser`);
     } catch (err) {
       return err;
@@ -121,10 +138,14 @@ describe('POST /update endpoint tests', () => {
      * any test
      * connect to the DB
      */
+  let globalToken;
   beforeAll(async () => {
     // add test user to mongodb
     await request(webapp).post('/api/auth/signup')
       .send(`username=testuser&email=testuser@test.com&password=beans&roles=['user']`);
+    const response = await request(webapp).post('/api/auth/signin')
+    .send(`username=testuser&password=beans`);
+    globalToken = JSON.parse(response.text).accessToken;
   });
 
   /**
@@ -133,7 +154,11 @@ describe('POST /update endpoint tests', () => {
  */
   afterAll(async () => {
     try {
+      const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
       await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
       .send(`username=testuser`);
     } catch (err) {
       return err;
@@ -141,19 +166,25 @@ describe('POST /update endpoint tests', () => {
   });
 
   test('test update empty', async () => {
+    const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
     const res = await request(webapp).post(`/api/profile/update`)
-      .send('username=testuser');
+    .set("Authorization", token)
+    .send('username=testuser');
     expect(res.status).toEqual(200);
   });
 
   test('test update phone number', async () => {
     const res = await request(webapp).post(`/api/profile/update`)
+    .set("Authorization", globalToken)
       .send('username=testuser&phoneNumber=9732349853');
     expect(res.status).toEqual(200);
   });
 
   test('test update max riders', async () => {
     const res = await request(webapp).post(`/api/profile/update`)
+    .set("Authorization", globalToken)
       .send('username=testuser&maxRiders=2');
     expect(res.status).toEqual(200);
   });
@@ -180,7 +211,11 @@ describe('POST /bookride endpoint tests', () => {
  */
   afterAll(async () => {
     try {
+      const response = await request(webapp).post('/api/auth/signin')
+      .send(`username=testuser&password=beans`);
+      token = JSON.parse(response.text).accessToken;
       await request(webapp).post('/api/profile/delete')
+      .set("Authorization", token)
       .send(`username=testuser`);
     } catch (err) {
       return err;
