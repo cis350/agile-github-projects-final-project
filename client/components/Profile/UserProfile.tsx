@@ -55,6 +55,7 @@ const UserProfile: React.FC = () => {
   }, [rendered]);
 
   const handleEditClick = () => {
+    console.log("Editing profile");
     setIsEditing(true);
   };
 

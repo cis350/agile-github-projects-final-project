@@ -39,6 +39,7 @@ const RideshareApps: React.FC<RideshareAppsProps> = ({ rideshareApps, addRidesha
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               const selectedApp = e.target.value;
               console.log(`Adding app: ${selectedApp}`);
+              console.log(`Adding app: ${selectedApp}`);
               if (selectedApp && !rideshareApps.includes(selectedApp)) {
                 addRideshareApp(selectedApp);
                 setFieldValue("rideshareApps", [...rideshareApps, selectedApp]);
@@ -63,4 +64,3 @@ const RideshareApps: React.FC<RideshareAppsProps> = ({ rideshareApps, addRidesha
 };
 
 export default RideshareApps;
-
