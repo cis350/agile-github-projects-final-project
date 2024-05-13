@@ -135,7 +135,7 @@ const UserProfile: React.FC = () => {
                   setFieldValue={setFieldValue}
                 />
                 <PaymentMethod
-                  paymentMethod={values.paymentMethod}
+                  paymentMethod={paymentMethod}
                   setFieldValue={setFieldValue}
                 />
                 <div className="mt-6 flex space-x-4">
