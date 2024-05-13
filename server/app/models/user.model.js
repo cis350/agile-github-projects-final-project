@@ -10,6 +10,9 @@ const User = mongoose.model(
     dropoffLocation: String,
     paymentMethod: String,
     stars: String,
+    preferred_rideshare_app: [
+      {type: String}
+    ],
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

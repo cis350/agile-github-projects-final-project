@@ -8,6 +8,8 @@ import EditableField from "./EditableField";
 import RideshareApps from "./RideshareApps";
 import PaymentMethod from "./PaymentMethod";
 import ProfileView from "./ProfileView";
+import { editProfile, fetchProfile } from '@/pages/api/api_auth_routes';
+
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -28,10 +30,24 @@ const UserProfile: React.FC = () => {
     setIsEditing(true);
   };
 
-  const handleSaveChanges = (values: any) => {
+  const handleSaveChanges = async (values: any) => {
     const rideshareAppsString = convertArrayToString(rideshareApps);
     setIsEditing(false);
     console.log("Saved values:", values);
+    try {
+      const response = await editProfile(
+        values.email, 
+        values.password,
+        values.rideshareApp,
+        values.paymentMethod,
+        localStorage.getItem("SavedToken") ?? ""
+      );
+      if (response.status === 200) {
+        console.log('Fetch success', response.data);
+      }
+    } catch (error: any) {
+      console.error('Fetch failed', error.response?.data?.message);
+    }
   };
 
   const handleDiscardChanges = (resetForm: any) => {
@@ -42,6 +58,27 @@ const UserProfile: React.FC = () => {
   const addRideshareApp = (app: string) => {
     setRideshareApps((prev) => [...prev, app]);
   };
+
+  const getInitialValues = async () => {
+    try {
+      const response = await fetchProfile(localStorage.getItem("SavedToken") ?? "");
+      if (response.status === 200) {
+        console.log('Update successful', response.data);
+        return {email: response.data.email,
+          password: "",
+          rideshareApp: response.data.rideshareApp,
+          paymentMethod: response.data.paymentMethod};
+      }
+    } catch (error: any) {
+      console.error('Update failed', error.response?.data?.message);
+      return {
+        email: "andrewwu@gmail.com",
+        password: "",
+        rideshareApp: "",
+        paymentMethod,
+      };
+    }
+  }
 
   return (
     <div className="flex justify-center">
@@ -74,12 +111,7 @@ const UserProfile: React.FC = () => {
 
         {isEditing ? (
           <Formik
-            initialValues={{
-              email: "andrewwu@gmail.com",
-              password: "",
-              rideshareApp: "",
-              paymentMethod,
-            }}
+            initialValues={getInitialValues()}
             validationSchema={validationSchema}
             onSubmit={handleSaveChanges}
           >
@@ -103,7 +135,7 @@ const UserProfile: React.FC = () => {
                   setFieldValue={setFieldValue}
                 />
                 <PaymentMethod
-                  paymentMethod={values.paymentMethod}
+                  paymentMethod={paymentMethod}
                   setFieldValue={setFieldValue}
                 />
                 <div className="mt-6 flex space-x-4">
