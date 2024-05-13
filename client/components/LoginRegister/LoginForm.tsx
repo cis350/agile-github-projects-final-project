@@ -14,13 +14,10 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-
   const [errorMessages, setErrorMessages] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const router = useRouter();
-
-  
 
   const formik = useFormik({
     initialValues: {
@@ -33,8 +30,6 @@ const Login: React.FC = () => {
         const response = await login(values.email, values.password);
         if (response.status === 201) {
           console.log('Login successful', response.data);
-          
-          // Redirect to dashboard or perform other success actions
           router.push("/");
         }
       } catch (error: any) {
