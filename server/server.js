@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 
 const allowedOrigins = [
-    "https://cisfinalproject-6odfvk3ki-pebble-inc.vercel.app",
+    "https://cisfinalproject-pebble-inc.vercel.app",
     "http://localhost:3000"
 ];
 
