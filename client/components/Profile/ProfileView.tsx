@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { SignOut } from "@phosphor-icons/react";
 
 interface ProfileViewProps {
   email: string;
@@ -6,16 +7,20 @@ interface ProfileViewProps {
   paymentMethod: string;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ email, rideshareApps, paymentMethod }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({
+  email,
+  rideshareApps,
+  paymentMethod,
+}) => {
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-6 space-y-4 min-w-[40vw]">
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 w-32 font-semibold">Email</span>
-        <span className="ml-4 text-right">{email}</span>
+        <span className="ml-4 text-right text-black">{email}</span>
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 w-32 font-semibold">Stars</span>
-        <span className="ml-4 flex items-center">
+        <span className="text-black ml-4 flex items-center">
           5.0
           <div className="flex ml-2">
             {[...Array(5)].map((_, i) => (
@@ -33,9 +38,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ email, rideshareApps, payment
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 w-32 font-semibold">Rideshare Apps</span>
-        <div className="ml-4 flex space-x-2">
+        <div className="text-black ml-4 flex space-x-2">
           {rideshareApps.map((app, index) => (
-            <span key={index} className="bg-gray-200 px-2 py-1 rounded-full text-sm font-semibold text-gray-700">
+            <span
+              key={index}
+              className="bg-gray-200 px-2 py-1 rounded-full text-sm font-semibold text-gray-700"
+            >
               {app}
             </span>
           ))}
@@ -43,7 +51,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ email, rideshareApps, payment
       </div>
       <div className="flex items-center justify-between p-3 px-4 bg-gray-100 rounded-3xl placeholder-gray-500 w-full">
         <span className="text-gray-500 font-semibold">Payment Method</span>
-        <span className="ml-4 text-blue-500 font-semibold">{paymentMethod}</span>
+        <span className="text-black ml-4 text-blue-500 font-semibold">
+          {paymentMethod}
+        </span>
+      </div>
+      <div className="mt-6 flex space-x-4">
+        <button className="bg-gray-800 text-white py-2 px-4 rounded-3xl flex items-center justify-center w-1/2">
+          <SignOut size={20} />
+          <span className="ml-2">Logout</span>
+        </button>
+        <button className="bg-gray-200 text-red-500 py-2 px-4 rounded-3xl w-1/2">
+          Delete Account
+        </button>
       </div>
     </div>
   );

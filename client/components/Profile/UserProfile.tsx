@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { PencilSimple } from "@phosphor-icons/react";
+import { PencilSimple, SignOut } from "@phosphor-icons/react";
 import Image from "next/image";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -8,8 +8,8 @@ import EditableField from "./EditableField";
 import RideshareApps from "./RideshareApps";
 import PaymentMethod from "./PaymentMethod";
 import ProfileView from "./ProfileView";
-import { editProfile, fetchProfile } from '@/pages/api/api_auth_routes';
-
+import { useRouter } from "next/router";
+import { editProfile, fetchProfile } from "@/pages/api/api_auth_routes";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -17,33 +17,41 @@ const validationSchema = Yup.object().shape({
 });
 
 const convertArrayToString = (array: string[]): string => {
-  return array.join('; ');
+  return array.join("; ");
 };
 
-
 const UserProfile: React.FC = () => {
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [rendered, setRendered] = useState(false);
   const [email, setEmail] = useState("");
-  const [rideshareApps, setRideshareApps] = useState<string[]>(["Lyft", "Uber"]);
+  const [rideshareApps, setRideshareApps] = useState<string[]>([
+    "Lyft",
+    "Uber",
+  ]);
   const [paymentMethod, setPaymentMethod] = useState("Venmo");
 
   useEffect(() => {
     if (!rendered) {
       setRendered(true);
       fetchProfile(localStorage.getItem("SavedToken") ?? "")
-      .then((response) => {
-        if (response.status === 200) {
-          console.log('Fetch Successful', response.data);
-          setEmail(response.data.email ?? "");
-          setRideshareApps(response.data.rideshareApp ?? "");
-          setPaymentMethod(response.data.paymentMethod ?? "");
-        }
-      }
-      ).catch((error) => {
-        console.error('Update failed', error.response?.data?.message);
-      })
-    }  
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Fetch Successful", response.data);
+            if (response.data.email === null || response.data.email === "") {
+              router.push("/login");
+            } else {
+              setEmail(response.data.email ?? "");
+              setRideshareApps(response.data.rideshareApp ?? "");
+              setPaymentMethod(response.data.paymentMethod ?? "");
+            }
+          }
+        })
+        .catch((error) => {
+          router.push("/login");
+          console.error("Update failed", error.response?.data?.message);
+        });
+    }
   }, [rendered]);
 
   const handleEditClick = () => {
@@ -56,18 +64,18 @@ const UserProfile: React.FC = () => {
     console.log("Saved values:", values);
     try {
       const response = await editProfile(
-        values.email, 
+        values.email,
         values.password,
         rideshareAppsString,
         values.paymentMethod,
         localStorage.getItem("SavedToken") ?? ""
       );
       if (response.status === 200) {
-        console.log('Save success', response.data);
+        console.log("Save success", response.data);
         setRendered(false);
       }
     } catch (error: any) {
-      console.error('Save failed', error.response?.data?.message);
+      console.error("Save failed", error.response?.data?.message);
     }
   };
 
@@ -79,38 +87,6 @@ const UserProfile: React.FC = () => {
   const addRideshareApp = (app: string) => {
     setRideshareApps((prev) => [...prev, app]);
   };
-
-  const getInitialValues = () => {
-    try {
-      const res = fetchProfile(localStorage.getItem("SavedToken") ?? "")
-      .then((response) => {
-        if (response.status === 200) {
-          console.log('Update successful', response.data);
-          setEmail(response.data.email);
-          setRideshareApps(response.data.rideshareApp);
-          setPaymentMethod(response.data.paymentMethod);
-          return {email: response.data.email ?? "",
-            password: "",
-            rideshareApp: response.data.rideshareApp ?? [],
-            paymentMethod: response.data.paymentMethod ?? ""};
-        }
-      }
-      ).catch((error) => {
-        console.error('Update failed', error.response?.data?.message);
-        return {
-          email: "andrewwu@gmail.com",
-          password: "",
-          rideshareApp: "",
-          paymentMethod,
-        };
-      })
-      
-    } catch (error: any) {
-      
-    }
-  }
-
-  
 
   return (
     <div className="flex justify-center">
@@ -136,7 +112,7 @@ const UserProfile: React.FC = () => {
               className="flex items-center text-gray-600 hover:text-gray-900 p-2 bg-gray-100 rounded-3xl"
             >
               <PencilSimple size={20} />
-              <span className="ml-1">edit</span>
+              <span className="ml-1 text-black">edit</span>
             </button>
           )}
         </div>
@@ -147,7 +123,7 @@ const UserProfile: React.FC = () => {
               email: email,
               password: "",
               rideshareApp: rideshareApps,
-              paymentMethod: paymentMethod
+              paymentMethod: paymentMethod,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSaveChanges}
