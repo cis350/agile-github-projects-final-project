@@ -40,7 +40,7 @@ exports.fetchProfile = (req, res) => {
             res.status(404).send({message: "User Not Found"});
         } else {
             res.status(200).send({
-                email: user.phone ?? "",
+                email: user.username ?? "",
                 rideshareApp: user.preferred_rideshare_app ?? [],
                 stars: user.stars ?? 5,
                 paymentMethod: user.paymentMethod ?? "",
